@@ -1,53 +1,45 @@
-import client.Client;
-import server.Server;
-
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.Scanner;
 
-public class Main {
+public class Main
+{
+
+    private static boolean run = true;
 
     public static void main(String[] args)
     {
-        int port = 0;
-        String ip = "";
+        System.out.println("Peer-to-Peer chat/voice program");
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter server(s) or client(c): ");
-        String choice = sc.nextLine();
+        //listening for incoming calls
+        Thread listeningThread = new Thread()
+        {
+            @Override
+            public void run()
+            {
+                while(run)
+                {
+                    try
+                    {
+                        ServerSocket serverSocket = new ServerSocket();
+                        System.out.println("Is now waiting for a connection..");
+                        //stuff
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Exception in listening thread: " + e.toString());
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Exception " + e.toString());
+                        System.out.println("Now closing listening thread");
+                        run = false;
+                    }
+                }
+            }
+        };
+        listeningThread.start();
 
-        if(choice.equals("server") || choice.equals("s"))
-        {
-            System.out.print("Enter port: ");
-            try
-            {
-                port = Integer.parseInt(sc.nextLine());
-                new Server(port);
-            }
-            catch (Exception e)
-            {
-                System.out.println(e.toString());
-                System.out.println("Incorrect port input or server unable to start a new server: " + e.getMessage());
-                System.exit(1); //
-            }
-        }
-        else if(choice.equals("client") || choice.equals("c"))
-        {
-            System.out.print("Enter ip address: ");
-            ip = sc.nextLine();
-            System.out.print("Enter port: ");
-            try
-            {
-                port = Integer.parseInt(sc.nextLine());
-                new Client(ip, port);
-            }
-            catch (Exception e)
-            {
-                System.out.println("Incorrect port input or client couldn't connect: " + e.getMessage());
-                System.exit(1); //
-            }
-        }
-        else
-        {
-            System.out.println("\"" + choice + "\"" + " is not server or client.. program now exiting");
-        }
+        //hoppa till IDEL-state och ringa därifrån
     }
 }
