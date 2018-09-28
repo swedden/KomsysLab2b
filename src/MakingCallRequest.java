@@ -1,6 +1,10 @@
 public class MakingCallRequest extends Busy{
 
-    public MakingCallRequest() {;}
+
+
+    public MakingCallRequest() {
+    //start timer for timeout
+    }
     //kanske kalla getTROsendACK
 
     public CallState receiveTROsendACK(){ //skulle t.ex. kunna ha socket till peer som inparameter för att kunna skapa strömmar senare
@@ -8,7 +12,7 @@ public class MakingCallRequest extends Busy{
         return new Conversation(); //ha med socketen till peer här
     } //hur skickar den receiveACK?
 
-    public CallState receiveNothingSendBYE() {
+    public CallState receiveNothingSendBYE() { //eg. times out, send bye and go back to idle
         System.out.println("BYE");
         return new Idle();
     }
