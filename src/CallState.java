@@ -4,6 +4,12 @@ public abstract class CallState {
         //skicka error
         return new Idle();
     }
+
+    public CallState userInputReceivedSendBYE(){
+        //skicka error
+        return new Idle();
+    }
+
     public CallState receivedInviteSendTRO() {
         //skicka error
         return new Idle();
@@ -20,13 +26,23 @@ public abstract class CallState {
         //skicka error
         return new Idle();
     }
+
     public CallState receiveACK() {
         //skicka error
         return new Idle();
     }
+
+    public CallState receiveNothingSendBYE(){
+        //skicka error
+        return new Idle();
+    }
+
     public void printState(){}
-    public void sendError(){
+
+    public CallState sendError(){
         //behöver ha socket och referenser, om den här skickas ska programmet stängas av och meddela användaren
+        System.out.println("an error occurred.");
+        return new Idle();
     }
 
     public boolean busy(){

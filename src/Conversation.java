@@ -1,14 +1,19 @@
 public class Conversation extends Busy
 {
-    public CallState userInputReceivedSendInvite() {
-        System.out.println("INVITE");
+    public CallState userInputReceivedSendBYE() {
+        System.out.println("BYE");
         return new HangingUp();
-    } //hur skickar den receiveByeSendOK?
+    }
 
 
     public CallState receiveByeSendOK() {
         System.out.println("OK");
         return new Idle();
     } //hur skickar den receiveOK?
+
+
+    public void printState() {
+        System.out.println("State: CONVERSATION");
+    }
 
 }

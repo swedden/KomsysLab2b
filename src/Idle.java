@@ -12,4 +12,8 @@ public class Idle extends CallState {
         return new ReceiveCallRequest();
     } //hur skickar den receiveTROsendACK
 
+
+    public void printState() {
+        System.out.println("State: IDLE");
+    }
 }

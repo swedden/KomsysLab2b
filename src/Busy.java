@@ -5,5 +5,9 @@ public abstract class Busy extends CallState {
         return true;
     }
 
+    public void printState() {
+        System.out.println("State: BUSY");
+    }
+
 
 }

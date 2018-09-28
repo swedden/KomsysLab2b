@@ -5,6 +5,15 @@ public class ReceiveCallRequest extends Busy {
         return new Conversation();
     }
 
+    public CallState receiveNothingSendBYE() { //timeout gör så att den här går igång
+        System.out.println("BYE");
+        return new Idle();
+    }
+
+    public void printState() {
+        System.out.println("State: ReceiveCallRequest");
+    }
+
     //if busy or timeout, go back to idle
 
 }

@@ -7,5 +7,9 @@ public class HangingUp extends Busy {
         return new Idle();
     }
 
+    public void printState() {
+        System.out.println("State: HangingUp");
+    }
+
 
 }
