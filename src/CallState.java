@@ -1,6 +1,8 @@
+import java.net.Socket;
+
 public abstract class CallState {
 
-    public CallState userInputReceivedSendInvite() {
+    public CallState userInputReceivedSendInvite(CallHandler ch) {
         //skicka error
         return new Idle();
     }
@@ -10,7 +12,7 @@ public abstract class CallState {
         return new Idle();
     }
 
-    public CallState receivedInviteSendTRO() {
+    public CallState receivedInviteSendNothing() {
         //skicka error
         return new Idle();
     }
@@ -27,7 +29,7 @@ public abstract class CallState {
         return new Idle();
     }
 
-    public CallState receiveACK() {
+    public CallState sendTROreceiveACK() {
         //skicka error
         return new Idle();
     }

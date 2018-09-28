@@ -1,7 +1,11 @@
 public class ReceiveCallRequest extends Busy {
 
-    public CallState receiveACK() {
+    public CallState sendTROreceiveACK() {
         //skicka ingenting men returnera ny conversation
+
+        //skcika TRO för att svara
+        //ingenting/bye för att gå tillbaka till IDLE (jag själv)
+        //if yes, send TRO, return new conversation, else idle
         return new Conversation();
     }
 
