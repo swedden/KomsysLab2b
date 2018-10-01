@@ -1,4 +1,6 @@
 package State;
+import com.sun.xml.internal.ws.server.sei.EndpointArgumentsBuilder;
+
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -9,7 +11,7 @@ public class CallHandler {
 
     private CallState currentState;
     private Socket clientSocket;
-    private Scanner inputScanner;
+    private InputScanner inputScanner;
 
     public Socket getClientSocket()
     {
@@ -20,7 +22,7 @@ public class CallHandler {
         this.clientSocket = clientSocket;
     }
 
-    public Scanner getInputScanner()
+    public InputScanner getInputScanner()
     {
         return inputScanner;
     }
@@ -28,7 +30,11 @@ public class CallHandler {
     public CallHandler()
     {
         currentState = new Idle();
-        inputScanner = new Scanner(System.in);
+
+        if((inputScanner == null))
+        {
+            inputScanner = new InputScanner();
+        }
     }
 
     public void processNextEvent (CallEvent event) {

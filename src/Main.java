@@ -13,6 +13,7 @@ public class Main
     private static ServerSocket serverSocket = null;
     private static Socket clientSocket = null;
     private static CallHandler ch;
+    private static Thread listeningThread;
 
     public static void main(String[] args)
     {
@@ -25,6 +26,7 @@ public class Main
         int port = scanner.nextInt();
         ch = new CallHandler();
         //start server/listening form peer-connections
+
         try
         {
             serverSocket = new ServerSocket(port);
@@ -33,7 +35,80 @@ public class Main
         {
             System.out.println("Could not start listening for clients on port " + port + " : " + e.toString());
         }
-        Thread liseningThread = new Thread()
+
+        listeningThread();
+
+        ch.getInputScanner().setClassString("MAIN");
+
+        String choice = "";
+        do
+        {
+            System.out.println("=====================");
+            System.out.println(ch.busy());
+            ch.printState();
+            System.out.println();
+            System.out.println("Call: sends invite");
+            /*
+            System.out.println("Current call state:");
+            System.out.println("SEND_INVITE: user input, sends invite");
+            System.out.println("INV_TRO: receive invite, send TRO");
+            System.out.println("BYE_OK: receive BYE, send OK");
+            System.out.println("TRO_ACK: receive TRO send ACK");
+            System.out.println("SEND_TRO_RECV_ACK: receive ACK, send nada");
+            System.out.println("RECV_OK: receive OK, send nada");
+            System.out.println("SEND_BYE: user input, send BYE");
+            */
+            System.out.println("Exit: exits.");
+            //input happens here
+            /*
+            synchronized (ch.getInputScanner())
+            {
+                choice = choice + ch.getInputScanner().nextLine().toUpperCase();
+            }
+            */
+            while(true)
+            {
+                if(ch.getInputScanner().hasInput("MAIN"))
+                {
+                     choice = ch.getInputScanner().getUserInput("MAIN");
+                     break;
+                }
+            }
+            //choice = ch.getInputScanner().getUserInput("MAIN");
+            if(choice.equals("CALL"))
+            {
+                ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV);
+            }
+            else
+            {
+                System.out.println("Bad input");
+            }
+
+            //changeState(choice);
+
+        }
+        while(!choice.equals("EXIT"));
+
+        try
+        {
+            listeningThread.interrupt();
+            listeningThread.join(1000);
+            System.exit(0);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Could not join thread: " + e.toString());
+
+        }
+        finally
+        {
+            System.exit(0);
+        }
+    }
+
+    public static void listeningThread()
+    {
+        listeningThread = new Thread()
         {
             @Override
             public void run()
@@ -85,55 +160,9 @@ public class Main
                         }
                     }
                 }
-
             }
         };
-        liseningThread.start();
-
-        //===============================================
-
-        String choice = "yeet";
-        do
-        {
-                System.out.println(ch.busy());
-                ch.printState();
-                System.out.println();
-                System.out.println("Current call state:");
-                System.out.println("SEND_INVITE: user input, sends invite");
-                System.out.println("INV_TRO: receive invite, send TRO");
-                System.out.println("BYE_OK: receive BYE, send OK");
-                System.out.println("TRO_ACK: receive TRO send ACK");
-                System.out.println("SEND_TRO_RECV_ACK: receive ACK, send nada");
-                System.out.println("RECV_OK: receive OK, send nada");
-                System.out.println("SEND_BYE: user input, send BYE");
-                System.out.println("Exit: exits.");
-            //input happens here
-                synchronized (ch.getInputScanner())
-                {
-                    choice = ch.getInputScanner().nextLine().toUpperCase();
-                }
-
-
-            changeState(choice);
-
-        }
-        while(!choice.equals("EXIT"));
-
-        try
-        {
-            liseningThread.interrupt();
-            liseningThread.join(1000);
-            System.exit(0);
-        }
-        catch (Exception e)
-        {
-            System.out.println("Could not join thread: " + e.toString());
-
-        }
-        finally
-        {
-            System.exit(0);
-        }
+        listeningThread.start();
     }
 
     public static void changeState(String msg)

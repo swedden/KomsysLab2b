@@ -13,15 +13,42 @@ public class Idle extends CallState {
     public CallState userInputReceivedSendInvite(CallHandler ch)
     {
         String ipAddress;
+        String portString;
         int port;
         PrintWriter out = null;
         try
         {
-            Scanner scanner = new Scanner(System.in);
+            //Scanner scanner = new Scanner(System.in);
             System.out.println("Enter IP-address: ");
-            ipAddress = scanner.nextLine();
+
+            ch.getInputScanner().setClassString("userInputReceivedSendInvite");
+            while(true)
+            {
+                if(ch.getInputScanner().hasInput("userInputReceivedSendInvite"))
+                {
+                    ipAddress = ch.getInputScanner().getUserInput("userInputReceivedSendInvite");
+                    break;
+                }
+            }
+
+            //ipAddress = scanner.nextLine();
             System.out.println("Enter port: ");
-            port = scanner.nextInt();
+
+            ch.getInputScanner().setClassString("userInputReceivedSendInvite");
+            while(true)
+            {
+                if(ch.getInputScanner().hasInput("userInputReceivedSendInvite"))
+                {
+                    portString = ch.getInputScanner().getUserInput("userInputReceivedSendInvite");
+                    break;
+                }
+            }
+
+            ch.getInputScanner().setClassString("MAIN");
+
+            port = Integer.parseInt(portString);
+
+            //port = scanner.nextInt();
             try
             {
                 Socket socket = new Socket(ipAddress, port);
@@ -43,16 +70,29 @@ public class Idle extends CallState {
         return new MakingCallRequest();
     }
 
-    public CallState receiveINVITEsendTRO(CallHandler ch){
+    public CallState receiveINVITEsendTRO(CallHandler ch)
+    {
+
 
         PrintWriter out;
         String ans;
         System.out.println("You have received an invite, do you want to accept? (Y/N)");
-        synchronized (ch.getInputScanner())
+        /*synchronized (ch.getInputScanner())
         {
             ans = ch.getInputScanner().nextLine().toUpperCase();
+        }*/
+        //ans = ch.getInputScanner().getUserInput("receiveINVITEsendTRO");
+
+        ch.getInputScanner().setClassString("receiveINVITEsendTRO");
+        while(true)
+        {
+            if(ch.getInputScanner().hasInput("receiveINVITEsendTRO"))
+            {
+                ans = ch.getInputScanner().getUserInput("receiveINVITEsendTRO");
+                break;
+            }
         }
-        System.out.println(ans);
+
         if(ans.equals("Y"))
         {
             System.out.println("hello we dont go here");
@@ -70,8 +110,10 @@ public class Idle extends CallState {
             {
                 System.out.println(e.toString());
             }
+            ch.getInputScanner().setClassString("MAIN");
             return new ReceiveCallRequest();
         }
+        ch.getInputScanner().setClassString("MAIN");
         System.out.println("hoppar till idle");
         return new Idle();
     }
