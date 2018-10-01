@@ -46,8 +46,12 @@ public class Idle extends CallState {
     public CallState receiveINVITEsendTRO(CallHandler ch){
 
         PrintWriter out;
+        String ans;
         System.out.println("You have received an invite, do you want to accept? (Y/N)");
-        String ans = ch.getInputScanner().nextLine().toUpperCase();
+        synchronized (ch.getInputScanner())
+        {
+            ans = ch.getInputScanner().nextLine().toUpperCase();
+        }
         System.out.println(ans);
         if(ans.equals("Y"))
         {

@@ -92,12 +92,9 @@ public class Main
 
         //===============================================
 
-
         String choice = "yeet";
         do
         {
-            if(!ch.busy())
-            {
                 System.out.println(ch.busy());
                 ch.printState();
                 System.out.println();
@@ -110,13 +107,15 @@ public class Main
                 System.out.println("RECV_OK: receive OK, send nada");
                 System.out.println("SEND_BYE: user input, send BYE");
                 System.out.println("Exit: exits.");
-            }
             //input happens here
-            choice = ch.getInputScanner().nextLine().toUpperCase();
-            if(!ch.busy())
-            {
-                changeState(choice);
-            }
+                synchronized (ch.getInputScanner())
+                {
+                    choice = ch.getInputScanner().nextLine().toUpperCase();
+                }
+
+
+            changeState(choice);
+
         }
         while(!choice.equals("EXIT"));
 
