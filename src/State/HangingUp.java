@@ -1,3 +1,5 @@
+package State;
+
 public class HangingUp extends Busy {
 
     public HangingUp() {;}
@@ -8,7 +10,7 @@ public class HangingUp extends Busy {
     }
 
     public void printState() {
-        System.out.println("State: HangingUp");
+        System.out.println("State: State.HangingUp");
     }
 
 

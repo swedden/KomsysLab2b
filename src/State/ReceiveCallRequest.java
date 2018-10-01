@@ -1,3 +1,5 @@
+package State;
+
 public class ReceiveCallRequest extends Busy {
 
     public CallState sendTROreceiveACK() {
@@ -15,7 +17,7 @@ public class ReceiveCallRequest extends Busy {
     }
 
     public void printState() {
-        System.out.println("State: ReceiveCallRequest");
+        System.out.println("State: State.ReceiveCallRequest");
     }
 
     //if busy or timeout, go back to idle

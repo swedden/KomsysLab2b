@@ -1,3 +1,5 @@
+package State;
+
 public class MakingCallRequest extends Busy{
 
 
@@ -18,7 +20,7 @@ public class MakingCallRequest extends Busy{
     }
 
     public void printState() {
-        System.out.println("State: MakingCallRequest");
+        System.out.println("State: State.MakingCallRequest");
     }
 
 }
