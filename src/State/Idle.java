@@ -43,14 +43,16 @@ public class Idle extends CallState {
         return new MakingCallRequest();
     }
 
-    public CallState receiveINVITEsendTRO(CallHandler ch){
+    public CallState receiveINVITEsendTRO(CallHandler ch, Scanner scanner){
 
-        System.out.println("You have received an invite, do you want to accept? (Y/N)");
-        Scanner scanner = new Scanner(System.in);
-        String ans = scanner.nextLine().toUpperCase();
         PrintWriter out;
+        String ans = "Y";
+        System.out.println("You have received an invite, do you want to accept? (Y/N)");
+        ans = scanner.nextLine().toUpperCase();
+
         if(ans.equals("Y"))
         {
+            System.out.println("hello we dont go here");
             try
             {
                 out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
@@ -59,11 +61,14 @@ public class Idle extends CallState {
             catch (IOException e)
             {
                 System.out.println("Couldn't get an outputstream for the client: " + e.toString());
-                sendError();
+                //sendError(e.toString());
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.toString());
             }
             return new ReceiveCallRequest();
         }
-
         return new Idle();
     }
 

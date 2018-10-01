@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class ReceiveCallRequest extends Busy {
 
     public CallState sendTROreceiveACK() {
+        System.out.println("sendtroreceiveack");
         //skicka ingenting men returnera ny conversation
 
         //skcika TRO för att svara

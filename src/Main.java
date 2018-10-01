@@ -94,27 +94,30 @@ public class Main
 
 
         Scanner scan = new Scanner(System.in);
-        String choice;
+        String choice = "yeet";
         do
         {
-            System.out.println(ch.busy());
-            ch.printState();
-            System.out.println();
-            System.out.println("Current call state:");
-            System.out.println("SEND_INVITE: user input, sends invite");
-            System.out.println("INV_TRO: receive invite, send TRO");
-            System.out.println("BYE_OK: receive BYE, send OK");
-            System.out.println("TRO_ACK: receive TRO send ACK");
-            System.out.println("SEND_TRO_RECV_ACK: receive ACK, send nada");
-            System.out.println("RECV_OK: receive OK, send nada");
-            System.out.println("SEND_BYE: user input, send BYE");
-            System.out.println("Exit: exits.");
-
+            if(!ch.busy())
+            {
+                System.out.println(ch.busy());
+                ch.printState();
+                System.out.println();
+                System.out.println("Current call state:");
+                System.out.println("SEND_INVITE: user input, sends invite");
+                System.out.println("INV_TRO: receive invite, send TRO");
+                System.out.println("BYE_OK: receive BYE, send OK");
+                System.out.println("TRO_ACK: receive TRO send ACK");
+                System.out.println("SEND_TRO_RECV_ACK: receive ACK, send nada");
+                System.out.println("RECV_OK: receive OK, send nada");
+                System.out.println("SEND_BYE: user input, send BYE");
+                System.out.println("Exit: exits.");
+            }
             //input happens here
             choice = scan.nextLine().toUpperCase();
-            changeState(choice);
-
-            System.out.println("");
+            if(!ch.busy())
+            {
+                changeState(choice);
+            }
         }
         while(!choice.equals("EXIT"));
 

@@ -1,5 +1,6 @@
 package State;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class CallHandler {
     public enum CallEvent {
@@ -8,6 +9,7 @@ public class CallHandler {
 
     private CallState currentState;
     private Socket clientSocket;
+    private Scanner scanner;
 
     public Socket getClientSocket()
     {
@@ -29,7 +31,7 @@ public class CallHandler {
             case USER_INPUT_RECV_SEND_INV: currentState = currentState.userInputReceivedSendInvite(this); break;
             case USER_INPUT_RECV_SEND_BYE: currentState = currentState.userInputReceivedSendBYE(); break;
             case RECV_NOTHING_SEND_BYE: currentState = currentState.receiveNothingSendBYE();
-            case RECV_INV_SEND_TRO: currentState = currentState.receiveINVITEsendTRO(); break;
+            case RECV_INV_SEND_TRO: currentState = currentState.receiveINVITEsendTRO(this); break;
             case RECV_BYE_SEND_OK: currentState = currentState.receiveByeSendOK(); break;
             case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(); break;
             case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(); break;
