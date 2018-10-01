@@ -23,7 +23,6 @@ public class Main
         Scanner scanner = new Scanner(System.in);
 
         int port = scanner.nextInt();
-
         ch = new CallHandler();
         //start server/listening form peer-connections
         try
@@ -34,7 +33,6 @@ public class Main
         {
             System.out.println("Could not start listening for clients on port " + port + " : " + e.toString());
         }
-
         Thread liseningThread = new Thread()
         {
             @Override
@@ -72,8 +70,8 @@ public class Main
                         try
                         {
                             clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
+                            ch.setClientSocket(clientSocket);
                             clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
                             String clientInputLine = null;
 
                             while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
@@ -143,11 +141,11 @@ public class Main
         {
             case "EXIT": break;
             case "SEND_INVITE": ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV); break;
-            case "INV_TRO": ch.processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO); break;
-            case "BYE_OK": ch.processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK); break;
-            case "TRO_ACK": ch.processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
-            case "SEND_TRO_RECV_ACK": ch.processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
-            case "RECV_OK": ch.processNextEvent(CallHandler.CallEvent.RECV_OK);break;
+            case "INVITE": ch.processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO); break;
+            case "BYE": ch.processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK); break;
+            case "TRO": ch.processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
+            case "ACK": ch.processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
+            case "OK": ch.processNextEvent(CallHandler.CallEvent.RECV_OK);break;
             case "SEND_BYE": ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
             default: ch.processNextEvent(CallHandler.CallEvent.ERROR); break;
         }

@@ -1,8 +1,4 @@
 package State;
-
-import State.CallState;
-import State.Idle;
-
 import java.net.Socket;
 
 public class CallHandler {
@@ -17,7 +13,6 @@ public class CallHandler {
     {
         return clientSocket;
     }
-
     public void setClientSocket(Socket clientSocket)
     {
         this.clientSocket = clientSocket;
@@ -34,7 +29,7 @@ public class CallHandler {
             case USER_INPUT_RECV_SEND_INV: currentState = currentState.userInputReceivedSendInvite(this); break;
             case USER_INPUT_RECV_SEND_BYE: currentState = currentState.userInputReceivedSendBYE(); break;
             case RECV_NOTHING_SEND_BYE: currentState = currentState.receiveNothingSendBYE();
-            case RECV_INV_SEND_TRO: currentState = currentState.receivedInviteSendNothing(); break;
+            case RECV_INV_SEND_TRO: currentState = currentState.receiveINVITEsendTRO(); break;
             case RECV_BYE_SEND_OK: currentState = currentState.receiveByeSendOK(); break;
             case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(); break;
             case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(); break;

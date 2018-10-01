@@ -12,10 +12,10 @@ public abstract class CallState {
         return new Idle();
     }
 
-    public CallState receivedInviteSendNothing() {
-        //skicka error
+    public CallState receiveINVITEsendTRO(CallHandler ch){
         return new Idle();
     }
+
     public CallState receiveByeSendOK() {
         //skicka error
         return new Idle();

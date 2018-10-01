@@ -1,5 +1,8 @@
 package State;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -9,25 +12,26 @@ public class Idle extends CallState {
 
     public CallState userInputReceivedSendInvite(CallHandler ch)
     {
-        String ipAdress;
+        String ipAddress;
         int port;
-
+        PrintWriter out = null;
         try
         {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter IP-adress: ");
-            ipAdress = scanner.nextLine();
+            System.out.println("Enter IP-address: ");
+            ipAddress = scanner.nextLine();
             System.out.println("Enter port: ");
             port = scanner.nextInt();
-
             try
             {
-                Socket socket = new Socket(ipAdress, port);
-                System.out.println("Has now made a connection!");
+                Socket socket = new Socket(ipAddress, port);
+                ch.setClientSocket(socket);
+                out = new PrintWriter(socket.getOutputStream(), true);
+                out.println("INVITE");
             }
             catch (Exception e)
             {
-                System.out.println("Could not make connection to: " + ipAdress + " on port: " + port);
+                System.out.println("Could not make connection to: " + ipAddress + " on port: " + port);
             }
         }
         catch (Exception e)
@@ -35,14 +39,33 @@ public class Idle extends CallState {
             System.out.println("Incorrect ip or port");
             return new Idle();
         }
-        System.out.println("INVITE");
 
         return new MakingCallRequest();
-    } //hur skickar den receivedInviteSendTRO
+    }
 
-    public CallState receivedInviteSendNothing() {
-        return new ReceiveCallRequest();
-    } //hur skickar den receiveTROsendACK
+    public CallState receiveINVITEsendTRO(CallHandler ch){
+
+        System.out.println("You have received an invite, do you want to accept? (Y/N)");
+        Scanner scanner = new Scanner(System.in);
+        String ans = scanner.nextLine().toUpperCase();
+        PrintWriter out;
+        if(ans.equals("Y"))
+        {
+            try
+            {
+                out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+                out.println("TRO");
+            }
+            catch (IOException e)
+            {
+                System.out.println("Couldn't get an outputstream for the client: " + e.toString());
+                sendError();
+            }
+            return new ReceiveCallRequest();
+        }
+
+        return new Idle();
+    }
 
 
     public void printState() {
