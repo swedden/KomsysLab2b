@@ -43,13 +43,12 @@ public class Idle extends CallState {
         return new MakingCallRequest();
     }
 
-    public CallState receiveINVITEsendTRO(CallHandler ch, Scanner scanner){
+    public CallState receiveINVITEsendTRO(CallHandler ch){
 
         PrintWriter out;
-        String ans = "Y";
         System.out.println("You have received an invite, do you want to accept? (Y/N)");
-        ans = scanner.nextLine().toUpperCase();
-
+        String ans = ch.getInputScanner().nextLine().toUpperCase();
+        System.out.println(ans);
         if(ans.equals("Y"))
         {
             System.out.println("hello we dont go here");
@@ -69,6 +68,7 @@ public class Idle extends CallState {
             }
             return new ReceiveCallRequest();
         }
+        System.out.println("hoppar till idle");
         return new Idle();
     }
 

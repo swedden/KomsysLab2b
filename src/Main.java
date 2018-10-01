@@ -93,7 +93,6 @@ public class Main
         //===============================================
 
 
-        Scanner scan = new Scanner(System.in);
         String choice = "yeet";
         do
         {
@@ -113,7 +112,7 @@ public class Main
                 System.out.println("Exit: exits.");
             }
             //input happens here
-            choice = scan.nextLine().toUpperCase();
+            choice = ch.getInputScanner().nextLine().toUpperCase();
             if(!ch.busy())
             {
                 changeState(choice);
@@ -150,7 +149,7 @@ public class Main
             case "ACK": ch.processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
             case "OK": ch.processNextEvent(CallHandler.CallEvent.RECV_OK);break;
             case "SEND_BYE": ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
-            default: ch.processNextEvent(CallHandler.CallEvent.ERROR); break;
+            default: break;
         }
     }
 }

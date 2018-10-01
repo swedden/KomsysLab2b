@@ -9,7 +9,7 @@ public class CallHandler {
 
     private CallState currentState;
     private Socket clientSocket;
-    private Scanner scanner;
+    private Scanner inputScanner;
 
     public Socket getClientSocket()
     {
@@ -20,9 +20,15 @@ public class CallHandler {
         this.clientSocket = clientSocket;
     }
 
+    public Scanner getInputScanner()
+    {
+        return inputScanner;
+    }
+
     public CallHandler()
     {
         currentState = new Idle();
+        inputScanner = new Scanner(System.in);
     }
 
     public void processNextEvent (CallEvent event) {
