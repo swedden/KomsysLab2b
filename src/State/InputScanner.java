@@ -25,7 +25,9 @@ public class InputScanner
             {
                 while(true)
                 {
+                    //System.out.println("Start reading input");
                     inputMessage = scanner.nextLine().toUpperCase();
+                    //System.out.println("inputMessage: " + inputMessage + ", length: " + inputMessage.length());
                 }
             }
         };
@@ -56,9 +58,16 @@ public class InputScanner
     //returns true if there is a new message from user (System.in) and is for the right class
     public boolean hasInput(String classString)
     {
+        try
+        {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+
+        }
+        //System.out.println("inputMessage.length() == " + inputMessage.length() + ", inputmessage: " + inputMessage + ", classString: " + classString);
         if(!(inputMessage.length() == 0))
         {
-            System.out.println("inputMessage.length() == " + inputMessage.length() + ", inputmessage: " + inputMessage + ", classString: " + classString);
+            //System.out.println("inputMessage.length() == " + inputMessage.length() + ", inputmessage: " + inputMessage + ", classString: " + classString);
             if(this.classString.equals(classString))
             {
                 return true;

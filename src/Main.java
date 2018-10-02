@@ -70,6 +70,7 @@ public class Main
             {
                 if(ch.getInputScanner().hasInput("MAIN"))
                 {
+
                      choice = ch.getInputScanner().getUserInput("MAIN");
                      break;
                 }

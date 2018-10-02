@@ -31,10 +31,10 @@ public class CallHandler {
     {
         currentState = new Idle();
 
-        if((inputScanner == null))
-        {
+        //if((inputScanner == null))
+        //{
             inputScanner = new InputScanner();
-        }
+        //}
     }
 
     public void processNextEvent (CallEvent event) {
