@@ -52,7 +52,7 @@ public class CallHandler
             case "ACK": processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
             case "OK": processNextEvent(CallHandler.CallEvent.RECV_OK);break;
             case "SEND_BYE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
-            default: break;
+            default: processNextEvent(CallEvent.ERROR); break;
         }
     }
 

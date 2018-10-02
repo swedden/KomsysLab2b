@@ -128,6 +128,7 @@ public class Main
                     }
                     else
                     {
+                        //ny tråd här kanske? =====================================================================
                         //ringing
                         BufferedReader clientIn = null;
                         try

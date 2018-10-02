@@ -69,12 +69,15 @@ public class Idle extends CallState
         PrintWriter out;
         String ans;
         System.out.println("You have received an invite, do you want to accept? (Y/N)");
+
+        //här kontrorllerar vi inte om det är protokoll input från programmet utan detta är en user input (om man vill svara på samtalet)
         ch.getInputScanner().setClassString("receiveINVITEsendTRO");
         while(true)
         {
             if(ch.getInputScanner().hasInput("receiveINVITEsendTRO"))
             {
                 ans = ch.getInputScanner().getUserInput("receiveINVITEsendTRO");
+                ans = ans.toUpperCase();
                 break;
             }
         }
