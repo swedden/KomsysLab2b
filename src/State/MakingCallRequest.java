@@ -12,20 +12,22 @@ public class MakingCallRequest extends Busy{
     {
     //start timer for timeout
         BufferedReader clientIn;
-        String clientInputLine;
+        String clientInputLine="";
         try {
             clientIn = new BufferedReader(new InputStreamReader(ch.getClientSocket().getInputStream()));
             while((clientInputLine = clientIn.readLine()) != null)
             {
                 System.out.println("Received TRO in while: " + clientInputLine);
-                ch.changeState(clientInputLine);
                 break;
             }
+            System.out.println("after while");
 
         } catch (IOException e) {
             System.out.println("could not start input stream from client: " + e.toString());
             sendError();
         }
+        ch.changeState(clientInputLine);
+        return;
     }
 
     public CallState receiveTROsendACK(CallHandler ch){ //skulle t.ex. kunna ha socket till peer som inparameter för att kunna skapa strömmar senare
