@@ -29,9 +29,20 @@ public class Conversation extends Busy
     }
 
 
-    public CallState receiveByeSendOK()
+    public CallState receiveByeSendOK(CallHandler ch)
     {
         System.out.println("Client hang up on you, sorry m8 :'(");
+        String input = "";
+        PrintWriter out = null;
+        try
+        {
+            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+            out.println("OK");
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
         return new Idle();
     }
 

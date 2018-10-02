@@ -20,7 +20,7 @@ public abstract class CallState
         return new Idle();
     }
 
-    public CallState receiveByeSendOK()
+    public CallState receiveByeSendOK(CallHandler ch)
     {
         //skicka error
         return new Idle();
