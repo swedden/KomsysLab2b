@@ -16,8 +16,8 @@ public class Idle extends CallState
         PrintWriter out = null;
         try
         {
-            //Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter IP-address: ");
+            System.out.println("===========================");
+            System.out.print("Enter IP-address: ");
 
             ch.getInputScanner().setClassString("userInputReceivedSendInvite");
             while(true)
@@ -28,7 +28,7 @@ public class Idle extends CallState
                     break;
                 }
             }
-            System.out.println("Enter port: ");
+            System.out.print("Enter port: ");
             ch.getInputScanner().setClassString("userInputReceivedSendInvite");
             while(true)
             {
@@ -39,8 +39,6 @@ public class Idle extends CallState
                 }
             }
 
-            ch.getInputScanner().setClassString("MAIN");
-
             port = Integer.parseInt(portString);
             try
             {
@@ -49,6 +47,8 @@ public class Idle extends CallState
                 ch.startClientInputThread();
                 out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("INVITE");
+                System.out.println("===========================");
+                System.out.println("Now waiting for the other person to answer");
             }
             catch (Exception e)
             {
@@ -61,6 +61,7 @@ public class Idle extends CallState
             return new Idle();
         }
 
+        ch.getInputScanner().setClassString("MAIN");
         return new MakingCallRequest();
     }
 
@@ -68,7 +69,8 @@ public class Idle extends CallState
     {
         PrintWriter out;
         String ans;
-        System.out.println("You have received an invite, do you want to accept? (Y/N)");
+        System.out.println("===========================");
+        System.out.print("You have received an invite to a call, do you want to accept? (Y/N): ");
 
         //här kontrorllerar vi inte om det är protokoll input från programmet utan detta är en user input (om man vill svara på samtalet)
         ch.getInputScanner().setClassString("receiveINVITEsendTRO");
@@ -88,7 +90,7 @@ public class Idle extends CallState
             {
                 out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
                 out.println("TRO");
-                System.out.println("Have now sent TRO");
+                //System.out.println("Have now sent TRO");
             }
             catch (IOException e)
             {
@@ -103,7 +105,15 @@ public class Idle extends CallState
             return new ReceiveCallRequest();
         }
         ch.getInputScanner().setClassString("MAIN");
-        System.out.println("hoppar till idle");
+        System.out.println("You chose to not answer");
+
+        //returns to main manu, print it to show the user
+        System.out.println("===========================");
+        System.out.println("Menu");
+        System.out.println("Call: sends invite");
+        System.out.println("Exit: exits.");
+        System.out.print("Input: ");
+
         return new Idle();
     }
 

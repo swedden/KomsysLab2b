@@ -82,6 +82,7 @@ public class CallHandler
         return currentState.busy();
     }
 
+    //process the clients incoming messages from socket
     public void startClientInputThread()
     {
         Thread clientInputThread = new Thread()
@@ -91,14 +92,18 @@ public class CallHandler
             {
                 BufferedReader clientIn;
                 String clientInputLine="";
-                try {
+                try
+                {
                     clientIn = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
                     while((clientInputLine = clientIn.readLine()) != null)
                     {
-                        System.out.println("Received from client: " + clientInputLine);
+                        //System.out.println("Received from client: " + clientInputLine);
                         changeState(clientInputLine);
                     }
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
+                    System.out.println("\n===========================");
                     System.out.println("could not read from client: " + e.toString());
                     currentState = currentState.sendError();
                 }

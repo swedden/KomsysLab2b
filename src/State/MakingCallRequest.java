@@ -16,7 +16,7 @@ public class MakingCallRequest extends Busy
     {
         //System.out.println("clientInputline: " + clientInputLine);
         //ch.changeState(clientInputLine);
-        System.out.println("Nu i receiveTROsendACK");
+        //System.out.println("Nu i receiveTROsendACK");
         PrintWriter out = null;
         try
         {
@@ -28,7 +28,7 @@ public class MakingCallRequest extends Busy
             e.printStackTrace();
         }
 
-        System.out.println("ACK");
+        //System.out.println("ACK");
         return new Conversation();
     }
 

@@ -5,20 +5,17 @@ import java.io.PrintWriter;
 
 public class Conversation extends Busy
 {
-    private boolean receviedBye; //för att brya looparna för input från användaren
     public Conversation()
     {
-        System.out.println("ring ringassdx");
+        System.out.println("You are now in an IP phone call");
     }
 
     public CallState userInputReceivedSendBYE(CallHandler ch)
     {
-        receviedBye = false;
-        String input = "";
-        PrintWriter out = null;
+        //PrintWriter out = null;
         try
         {
-            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+            PrintWriter out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
             out.println("BYE");
         }
         catch(IOException e)
@@ -32,17 +29,24 @@ public class Conversation extends Busy
     public CallState receiveByeSendOK(CallHandler ch)
     {
         System.out.println("Client hang up on you, sorry m8 :'(");
-        String input = "";
-        PrintWriter out = null;
+        //PrintWriter out = null;
         try
         {
-            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+            PrintWriter out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
             out.println("OK");
         }
         catch(IOException e)
         {
             e.printStackTrace();
         }
+
+        //returns to main manu, print it to show the user
+        System.out.println("===========================");
+        System.out.println("Menu");
+        System.out.println("Call: sends invite");
+        System.out.println("Exit: exits.");
+        System.out.print("Input: ");
+
         return new Idle();
     }
 

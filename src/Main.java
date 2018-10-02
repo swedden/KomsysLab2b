@@ -17,16 +17,14 @@ public class Main
 
     public static void main(String[] args)
     {
-        System.out.println("peer to peer voice chat");
+        System.out.println("===== Peer to peer voice chat =====");
 
         //===============================================
-        System.out.println("What port do you want to use: ");
+        System.out.print("What port do you want to use: ");
         Scanner scanner = new Scanner(System.in);
 
         int port = scanner.nextInt();
         ch = new CallHandler();
-        //start server/listening form peer-connections
-
         try
         {
             serverSocket = new ServerSocket(port);
@@ -40,15 +38,11 @@ public class Main
 
         ch.getInputScanner().setClassString("MAIN");
 
+        showMainMenu();
+
         String choice;
         do
         {
-            System.out.println("=====================");
-            System.out.println(ch.busy());
-            ch.printState();
-            System.out.println();
-            System.out.println("Call: sends invite");
-            System.out.println("Exit: exits.");
             while(true)
             {
                 if(ch.getInputScanner().hasInput("MAIN"))
@@ -66,14 +60,17 @@ public class Main
             else if(choice.equals("BYE") && ch.busy())
             {
                 ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE);
+                showMainMenu();
+            }
+            else if(choice.equals("EXIT"))
+            {
+                break;
             }
             else
             {
                 System.out.println("Bad input");
+                showMainMenu();
             }
-
-            //changeState(choice);
-
         }
         while(!choice.equals("EXIT"));
 
@@ -94,6 +91,15 @@ public class Main
         }
     }
 
+    private static void showMainMenu()
+    {
+        System.out.println("===========================");
+        System.out.println("Menu");
+        System.out.println("Call: sends invite");
+        System.out.println("Exit: exits.");
+        System.out.print("Input: ");
+    }
+
     public static void listeningThread()
     {
         listeningThread = new Thread()
@@ -101,55 +107,55 @@ public class Main
             @Override
             public void run()
             {
-                while(true)
+            while(true)
+            {
+                Socket acceptSocket = null;
+                try
                 {
-                    Socket acceptSocket = null;
+                    acceptSocket = serverSocket.accept(); //skapar en ny för om clientSocket redan används
+                    //System.out.println("Serversocket has now made a connection");
+                }
+                catch (IOException e)
+                {
+                    System.out.println("Could not accept new client connection: " + e.toString());
+                }
+
+                if (ch.busy())
+                {
+                    //skicka busy
                     try
                     {
-                        acceptSocket = serverSocket.accept(); //skapar en ny för om clientSocket redan används
-                        System.out.println("Serversocket has now made a connection");
+                        acceptSocket.close();
                     }
                     catch (IOException e)
                     {
-                        System.out.println("Could not accept new client connection: " + e.toString());
-                    }
-
-                    if (ch.busy())
-                    {
-                        //skicka busy
-                        try
-                        {
-                            acceptSocket.close();
-                        }
-                        catch (IOException e)
-                        {
-                            System.out.println("Could not close socket with new client: " + e.toString());
-                        }
-                    }
-                    else
-                    {
-                        //ny tråd här kanske? =====================================================================
-                        //ringing
-                        BufferedReader clientIn = null;
-                        try
-                        {
-                            clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
-                            ch.setClientSocket(clientSocket);
-                            clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                            String clientInputLine = null;
-
-                            while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
-                            {
-                                System.out.println("i main while: " + clientInputLine);
-                                ch.changeState(clientInputLine);
-                            }
-                        }
-                        catch (IOException e)
-                        {
-                            System.out.println("Could not read stream from client: " + e.toString());
-                        }
+                        System.out.println("Could not close socket with new client: " + e.toString());
                     }
                 }
+                else
+                {
+                    //ny tråd här kanske? =====================================================================
+                    //ringing
+                    BufferedReader clientIn = null;
+                    try
+                    {
+                        clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
+                        ch.setClientSocket(clientSocket);
+                        clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                        String clientInputLine = null;
+
+                        while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
+                        {
+                            //System.out.println("i main while: " + clientInputLine);
+                            ch.changeState(clientInputLine);
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("ServerSocket, Could not read stream from client: " + e.toString());
+                    }
+                }
+            }
             }
         };
         listeningThread.start();
