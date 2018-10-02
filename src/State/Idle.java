@@ -1,10 +1,7 @@
 package State;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Idle extends CallState
 {
@@ -49,6 +46,7 @@ public class Idle extends CallState
             {
                 Socket socket = new Socket(ipAddress, port);
                 ch.setClientSocket(socket);
+                ch.startClientInputThread();
                 out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("INVITE");
             }
@@ -63,7 +61,7 @@ public class Idle extends CallState
             return new Idle();
         }
 
-        return new MakingCallRequest(ch);
+        return new MakingCallRequest();
     }
 
     public CallState receiveINVITEsendTRO(CallHandler ch)

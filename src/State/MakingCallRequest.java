@@ -8,29 +8,21 @@ public class MakingCallRequest extends Busy{
 
 
 
-    public MakingCallRequest(CallHandler ch)
+    public MakingCallRequest()
     {
-    //start timer for timeout
-        BufferedReader clientIn;
-        String clientInputLine="";
-        try {
-            clientIn = new BufferedReader(new InputStreamReader(ch.getClientSocket().getInputStream()));
-            while((clientInputLine = clientIn.readLine()) != null)
-            {
-                System.out.println("Received TRO in while: " + clientInputLine);
-                break;
-            }
-            System.out.println("after while");
 
-        } catch (IOException e) {
-            System.out.println("could not start input stream from client: " + e.toString());
-            sendError();
-        }
-        ch.changeState(clientInputLine);
-        return;
     }
 
-    public CallState receiveTROsendACK(CallHandler ch){ //skulle t.ex. kunna ha socket till peer som inparameter för att kunna skapa strömmar senare
+    public CallState receiveTROsendACK(CallHandler ch)
+    {
+        //skulle t.ex. kunna ha socket till peer som inparameter för att kunna skapa strömmar senare
+        //start timer for timeout
+
+        //System.out.println("clientInputline: " + clientInputLine);
+        //ch.changeState(clientInputLine);
+
+
+        System.out.println("HääÄÄÄÄÄÄÄR");
         System.out.println("ACK"); //är det här man skickar utsignaler???
         return new Conversation(); //ha med socketen till peer här
     } //hur skickar den receiveACK?
