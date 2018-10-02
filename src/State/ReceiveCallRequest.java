@@ -2,14 +2,14 @@ package State;
 
 public class ReceiveCallRequest extends Busy {
 
-    public CallState sendTROreceiveACK(CallHandler ch) {
+    public CallState sendTROreceiveACK() {
         System.out.println("sendtroreceiveack");
         //skicka ingenting men returnera ny conversation
 
         //skcika TRO för att svara
         //ingenting/bye för att gå tillbaka till IDLE (jag själv)
         //if yes, send TRO, return new conversation, else idle
-        return new Conversation(ch);
+        return new Conversation();
     }
 
     public CallState receiveNothingSendBYE() { //timeout gör så att den här går igång

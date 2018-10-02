@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 public class Conversation extends Busy
 {
     private boolean receviedBye; //för att brya looparna för input från användaren
-    public Conversation(CallHandler ch)
+    public Conversation()
     {
         System.out.println("ring ringassdx");
     }
