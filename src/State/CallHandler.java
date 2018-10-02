@@ -1,11 +1,11 @@
 package State;
-import com.sun.xml.internal.ws.server.sei.EndpointArgumentsBuilder;
 
 import java.net.Socket;
-import java.util.Scanner;
 
-public class CallHandler {
-    public enum CallEvent {
+public class CallHandler
+{
+    public enum CallEvent
+    {
         USER_INPUT_RECV_SEND_INV, USER_INPUT_RECV_SEND_BYE, RECV_INV_SEND_TRO, RECV_BYE_SEND_OK,
         RECV_TRO_SEND_ACK, SEND_TRO_RECV_ACK, RECV_OK, RECV_NOTHING_SEND_BYE, ERROR};
 
@@ -37,7 +37,8 @@ public class CallHandler {
         //}
     }
 
-    public void processNextEvent (CallEvent event) {
+    public void processNextEvent (CallEvent event)
+    {
         switch(event)
         {
             case USER_INPUT_RECV_SEND_INV: currentState = currentState.userInputReceivedSendInvite(this); break;
@@ -52,9 +53,13 @@ public class CallHandler {
         }
     }
 
-    public void printState() {
+    public void printState()
+    {
         currentState.printState();
     }
 
-    public boolean busy() { return currentState.busy();}
+    public boolean busy()
+    {
+        return currentState.busy();
+    }
 }

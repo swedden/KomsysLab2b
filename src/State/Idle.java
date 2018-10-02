@@ -6,7 +6,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Idle extends CallState {
+public class Idle extends CallState
+{
 
     public Idle() {;}
 
@@ -72,8 +73,6 @@ public class Idle extends CallState {
 
     public CallState receiveINVITEsendTRO(CallHandler ch)
     {
-
-
         PrintWriter out;
         String ans;
         System.out.println("You have received an invite, do you want to accept? (Y/N)");
@@ -95,11 +94,11 @@ public class Idle extends CallState {
 
         if(ans.equals("Y"))
         {
-            System.out.println("hello we dont go here");
             try
             {
                 out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
                 out.println("TRO");
+                System.out.println("Have now sent TRO");
             }
             catch (IOException e)
             {
@@ -119,7 +118,8 @@ public class Idle extends CallState {
     }
 
 
-    public void printState() {
+    public void printState()
+    {
         System.out.println("State: IDLE");
     }
 }
