@@ -27,7 +27,7 @@ public abstract class CallState
     }
     public CallState receiveOK()
     {
-        //skicka error
+        //skicka error.
         return new Idle();
     }
     public CallState receiveTROsendACK(CallHandler ch)

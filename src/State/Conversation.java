@@ -40,7 +40,7 @@ public class Conversation extends Busy
             e.printStackTrace();
         }
 
-        //returns to main manu, print it to show the user
+        //returns to main manu, print it to show the user.
         System.out.println("===========================");
         System.out.println("Menu");
         System.out.println("Call: sends invite");

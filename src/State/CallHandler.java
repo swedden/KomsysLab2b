@@ -97,7 +97,6 @@ public class CallHandler
                     clientIn = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
                     while((clientInputLine = clientIn.readLine()) != null)
                     {
-                        //System.out.println("Received from client: " + clientInputLine);
                         changeState(clientInputLine);
                     }
                 }

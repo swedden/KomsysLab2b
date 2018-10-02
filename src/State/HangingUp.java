@@ -6,7 +6,7 @@ public class HangingUp extends Busy
 
     public CallState receiveOK()
     {
-        //skickar ingenting men gör ny idle
+        //skickar ingenting men gör ny idle.
         return new Idle();
     }
 

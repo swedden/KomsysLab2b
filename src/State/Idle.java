@@ -72,7 +72,7 @@ public class Idle extends CallState
         System.out.println("===========================");
         System.out.print("You have received an invite to a call, do you want to accept? (Y/N): ");
 
-        //här kontrorllerar vi inte om det är protokoll input från programmet utan detta är en user input (om man vill svara på samtalet)
+        //här kontrorllerar vi inte om det är ett protokoll input från programmet utan detta är en user input (om man vill svara på samtalet)
         ch.getInputScanner().setClassString("receiveINVITEsendTRO");
         while(true)
         {
