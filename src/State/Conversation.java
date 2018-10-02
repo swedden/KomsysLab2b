@@ -13,61 +13,31 @@ public class Conversation extends Busy
 
     public CallState userInputReceivedSendBYE(CallHandler ch)
     {
-        System.out.println("blingo");
         receviedBye = false;
         String input = "";
-        ch.getInputScanner().setClassString("Conversation");
-        while(true)
+        PrintWriter out = null;
+        try
         {
-            while(true)
-            {
-                if(receviedBye)
-                {
-                    break;
-                }
-                else if(ch.getInputScanner().hasInput("Conversation"))
-                {
-                    input = ch.getInputScanner().getUserInput("Conversation");
-                    break;
-                }
-            }
-            if(receviedBye)
-            {
-                break;
-            }
-            else if(input.equals("BYE"))//if user types BYE
-            {
-                PrintWriter out = null;
-                try
-                {
-                    out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
-                    out.println("BYE");
-                }
-                catch(IOException e)
-                {
-                    e.printStackTrace();
-                }
-                break;
-            }
-            else
-            {
-                System.out.println(input + " is not BYE");
-            }
+            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+            out.println("BYE");
         }
-        ch.getInputScanner().setClassString("MAIN");
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
         return new HangingUp();
     }
 
 
     public CallState receiveByeSendOK()
     {
-        receviedBye = true;
-        System.out.println("OK");
+        System.out.println("Client hang up on you, sorry m8 :'(");
         return new Idle();
-    } //hur skickar den receiveOK?
+    }
 
 
-    public void printState() {
+    public void printState()
+    {
         System.out.println("State: CONVERSATION");
     }
 
