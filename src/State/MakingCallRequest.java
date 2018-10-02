@@ -1,13 +1,32 @@
 package State;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class MakingCallRequest extends Busy{
 
 
 
-    public MakingCallRequest() {
+    public MakingCallRequest(CallHandler ch)
+    {
     //start timer for timeout
+        BufferedReader clientIn;
+        String clientInputLine;
+        try {
+            clientIn = new BufferedReader(new InputStreamReader(ch.getClientSocket().getInputStream()));
+            while((clientInputLine = clientIn.readLine()) != null)
+            {
+                System.out.println("Received TRO in while: " + clientInputLine);
+                ch.changeState(clientInputLine);
+                break;
+            }
+
+        } catch (IOException e) {
+            System.out.println("could not start input stream from client: " + e.toString());
+            sendError();
+        }
     }
-    //kanske kalla getTROsendACK
 
     public CallState receiveTROsendACK(CallHandler ch){ //skulle t.ex. kunna ha socket till peer som inparameter för att kunna skapa strömmar senare
         System.out.println("ACK"); //är det här man skickar utsignaler???

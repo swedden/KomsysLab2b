@@ -37,6 +37,22 @@ public class CallHandler
         //}
     }
 
+    public void changeState(String msg)
+    {
+        switch(msg)
+        {
+            case "EXIT": break;
+            case "SEND_INVITE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV); break;
+            case "INVITE": processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO); break;
+            case "BYE": processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK); break;
+            case "TRO": processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
+            case "ACK": processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
+            case "OK": processNextEvent(CallHandler.CallEvent.RECV_OK);break;
+            case "SEND_BYE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
+            default: break;
+        }
+    }
+
     public void processNextEvent (CallEvent event)
     {
         switch(event)

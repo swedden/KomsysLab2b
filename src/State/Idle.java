@@ -31,10 +31,7 @@ public class Idle extends CallState
                     break;
                 }
             }
-
-            //ipAddress = scanner.nextLine();
             System.out.println("Enter port: ");
-
             ch.getInputScanner().setClassString("userInputReceivedSendInvite");
             while(true)
             {
@@ -48,8 +45,6 @@ public class Idle extends CallState
             ch.getInputScanner().setClassString("MAIN");
 
             port = Integer.parseInt(portString);
-
-            //port = scanner.nextInt();
             try
             {
                 Socket socket = new Socket(ipAddress, port);
@@ -68,7 +63,7 @@ public class Idle extends CallState
             return new Idle();
         }
 
-        return new MakingCallRequest();
+        return new MakingCallRequest(ch);
     }
 
     public CallState receiveINVITEsendTRO(CallHandler ch)

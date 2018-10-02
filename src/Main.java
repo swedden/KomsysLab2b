@@ -135,7 +135,7 @@ public class Main
                             while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
                             {
                                 System.out.println("i main while: " + clientInputLine);
-                                changeState(clientInputLine);
+                                ch.changeState(clientInputLine);
                             }
                         }
                         catch (IOException e)
@@ -147,21 +147,5 @@ public class Main
             }
         };
         listeningThread.start();
-    }
-
-    public static void changeState(String msg)
-    {
-        switch(msg)
-        {
-            case "EXIT": break;
-            case "SEND_INVITE": ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV); break;
-            case "INVITE": ch.processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO); break;
-            case "BYE": ch.processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK); break;
-            case "TRO": ch.processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
-            case "ACK": ch.processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
-            case "OK": ch.processNextEvent(CallHandler.CallEvent.RECV_OK);break;
-            case "SEND_BYE": ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
-            default: break;
-        }
     }
 }
