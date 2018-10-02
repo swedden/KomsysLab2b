@@ -63,6 +63,10 @@ public class Main
             {
                 ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV);
             }
+            else if(choice.equals("BYE") && ch.busy())
+            {
+                ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE);
+            }
             else
             {
                 System.out.println("Bad input");

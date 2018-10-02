@@ -13,6 +13,7 @@ public class Conversation extends Busy
 
     public CallState userInputReceivedSendBYE(CallHandler ch)
     {
+        System.out.println("blingo");
         receviedBye = false;
         String input = "";
         ch.getInputScanner().setClassString("Conversation");
