@@ -8,6 +8,11 @@ public class Conversation extends Busy
     private boolean receviedBye; //för att brya looparna för input från användaren
     public Conversation(CallHandler ch)
     {
+        System.out.println("ring ringassdx");
+    }
+
+    public CallState userInputReceivedSendBYE(CallHandler ch)
+    {
         receviedBye = false;
         String input = "";
         ch.getInputScanner().setClassString("Conversation");
@@ -31,7 +36,16 @@ public class Conversation extends Busy
             }
             else if(input.equals("BYE"))//if user types BYE
             {
-
+                PrintWriter out = null;
+                try
+                {
+                    out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+                    out.println("BYE");
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
                 break;
             }
             else
@@ -40,20 +54,6 @@ public class Conversation extends Busy
             }
         }
         ch.getInputScanner().setClassString("MAIN");
-    }
-
-    public CallState userInputReceivedSendBYE(CallHandler ch)
-    {
-        PrintWriter out = null;
-        try
-        {
-            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
-            out.println("BYE");
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
         return new HangingUp();
     }
 

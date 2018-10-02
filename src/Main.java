@@ -55,6 +55,7 @@ public class Main
                 {
 
                      choice = ch.getInputScanner().getUserInput("MAIN");
+                     choice = choice.toUpperCase();
                      break;
                 }
             }
