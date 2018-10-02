@@ -48,9 +48,7 @@ public class CallHandler
             case "SEND_INVITE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV); break;
             case "INVITE": processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO); break;
             case "BYE": processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK); break;
-            case "TRO":
-                System.out.println("i change state, msg: " + msg + ", byter nu till RECV_TRO_SEND_ACK ");
-                processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
+            case "TRO": processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
             case "ACK": processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
             case "OK": processNextEvent(CallHandler.CallEvent.RECV_OK);break;
             case "SEND_BYE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
@@ -63,13 +61,11 @@ public class CallHandler
         switch(event)
         {
             case USER_INPUT_RECV_SEND_INV: currentState = currentState.userInputReceivedSendInvite(this); break;
-            case USER_INPUT_RECV_SEND_BYE: currentState = currentState.userInputReceivedSendBYE(); break;
+            case USER_INPUT_RECV_SEND_BYE: currentState = currentState.userInputReceivedSendBYE(this); break;
             case RECV_NOTHING_SEND_BYE: currentState = currentState.receiveNothingSendBYE();
             case RECV_INV_SEND_TRO: currentState = currentState.receiveINVITEsendTRO(this); break;
             case RECV_BYE_SEND_OK: currentState = currentState.receiveByeSendOK(); break;
-            case RECV_TRO_SEND_ACK:
-                System.out.println("andra case bye state.. ");
-                currentState = currentState.receiveTROsendACK(this); break;
+            case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(this); break;
             case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(); break;
             case RECV_OK: currentState = currentState.receiveOK(); break;
             case ERROR: currentState = currentState.sendError(); break;

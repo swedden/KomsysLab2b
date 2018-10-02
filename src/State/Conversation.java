@@ -1,14 +1,66 @@
 package State;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class Conversation extends Busy
 {
-    public CallState userInputReceivedSendBYE() {
-        System.out.println("BYE");
+    private boolean receviedBye; //för att brya looparna för input från användaren
+    public Conversation(CallHandler ch)
+    {
+        receviedBye = false;
+        String input = "";
+        ch.getInputScanner().setClassString("Conversation");
+        while(true)
+        {
+            while(true)
+            {
+                if(receviedBye)
+                {
+                    break;
+                }
+                else if(ch.getInputScanner().hasInput("Conversation"))
+                {
+                    input = ch.getInputScanner().getUserInput("Conversation");
+                    break;
+                }
+            }
+            if(receviedBye)
+            {
+                break;
+            }
+            else if(input.equals("BYE"))//if user types BYE
+            {
+
+                break;
+            }
+            else
+            {
+                System.out.println(input + " is not BYE");
+            }
+        }
+        ch.getInputScanner().setClassString("MAIN");
+    }
+
+    public CallState userInputReceivedSendBYE(CallHandler ch)
+    {
+        PrintWriter out = null;
+        try
+        {
+            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+            out.println("BYE");
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
         return new HangingUp();
     }
 
 
-    public CallState receiveByeSendOK() {
+    public CallState receiveByeSendOK()
+    {
+        receviedBye = true;
         System.out.println("OK");
         return new Idle();
     } //hur skickar den receiveOK?

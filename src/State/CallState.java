@@ -9,7 +9,7 @@ public abstract class CallState
         return new Idle();
     }
 
-    public CallState userInputReceivedSendBYE()
+    public CallState userInputReceivedSendBYE(CallHandler ch)
     {
         //skicka error
         return new Idle();

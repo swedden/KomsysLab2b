@@ -26,7 +26,7 @@ public class InputScanner
                 while(true)
                 {
                     //System.out.println("Start reading input");
-                    inputMessage = scanner.nextLine().toUpperCase();
+                    inputMessage = scanner.nextLine();
                     //System.out.println("inputMessage: " + inputMessage + ", length: " + inputMessage.length());
                 }
             }
