@@ -46,7 +46,7 @@ public class CallHandler
             case RECV_NOTHING_SEND_BYE: currentState = currentState.receiveNothingSendBYE();
             case RECV_INV_SEND_TRO: currentState = currentState.receiveINVITEsendTRO(this); break;
             case RECV_BYE_SEND_OK: currentState = currentState.receiveByeSendOK(); break;
-            case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(); break;
+            case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(this); break;
             case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(); break;
             case RECV_OK: currentState = currentState.receiveOK(); break;
             case ERROR: currentState = currentState.sendError(); break;

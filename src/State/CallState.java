@@ -30,7 +30,7 @@ public abstract class CallState
         //skicka error
         return new Idle();
     }
-    public CallState receiveTROsendACK()
+    public CallState receiveTROsendACK(CallHandler ch)
     {
         //skicka error
         return new Idle();

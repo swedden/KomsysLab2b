@@ -1,7 +1,5 @@
 package State;
 
-import java.util.Scanner;
-
 public class ReceiveCallRequest extends Busy {
 
     public CallState sendTROreceiveACK() {

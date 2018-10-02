@@ -40,7 +40,7 @@ public class Main
 
         ch.getInputScanner().setClassString("MAIN");
 
-        String choice = "";
+        String choice;
         do
         {
             System.out.println("=====================");
@@ -48,24 +48,7 @@ public class Main
             ch.printState();
             System.out.println();
             System.out.println("Call: sends invite");
-            /*
-            System.out.println("Current call state:");
-            System.out.println("SEND_INVITE: user input, sends invite");
-            System.out.println("INV_TRO: receive invite, send TRO");
-            System.out.println("BYE_OK: receive BYE, send OK");
-            System.out.println("TRO_ACK: receive TRO send ACK");
-            System.out.println("SEND_TRO_RECV_ACK: receive ACK, send nada");
-            System.out.println("RECV_OK: receive OK, send nada");
-            System.out.println("SEND_BYE: user input, send BYE");
-            */
             System.out.println("Exit: exits.");
-            //input happens here
-            /*
-            synchronized (ch.getInputScanner())
-            {
-                choice = choice + ch.getInputScanner().nextLine().toUpperCase();
-            }
-            */
             while(true)
             {
                 if(ch.getInputScanner().hasInput("MAIN"))
@@ -75,7 +58,6 @@ public class Main
                      break;
                 }
             }
-            //choice = ch.getInputScanner().getUserInput("MAIN");
             if(choice.equals("CALL"))
             {
                 ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV);
@@ -152,6 +134,7 @@ public class Main
 
                             while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
                             {
+                                System.out.println("i main while: " + clientInputLine);
                                 changeState(clientInputLine);
                             }
                         }

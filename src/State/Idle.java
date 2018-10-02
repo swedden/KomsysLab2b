@@ -76,12 +76,6 @@ public class Idle extends CallState
         PrintWriter out;
         String ans;
         System.out.println("You have received an invite, do you want to accept? (Y/N)");
-        /*synchronized (ch.getInputScanner())
-        {
-            ans = ch.getInputScanner().nextLine().toUpperCase();
-        }*/
-        //ans = ch.getInputScanner().getUserInput("receiveINVITEsendTRO");
-
         ch.getInputScanner().setClassString("receiveINVITEsendTRO");
         while(true)
         {
