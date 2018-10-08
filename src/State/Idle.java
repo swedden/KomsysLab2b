@@ -53,7 +53,7 @@ public class Idle extends CallState
                 System.out.println("===========================");
                 System.out.println("Now waiting for the other person to answer");
 
-                ch.startRingingThread();
+                ch.startTimerThread();
             }
             catch (Exception e)
             {

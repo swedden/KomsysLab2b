@@ -69,7 +69,7 @@ public class CallHandler
             case RECV_INV_SEND_TRO: currentState = currentState.receiveINVITEsendTRO(this); break;
             case RECV_BYE_SEND_OK: currentState = currentState.receiveByeSendOK(this); break;
             case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(this); break;
-            case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(); break;
+            case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(this); break;
             case RECV_OK: currentState = currentState.receiveOK(); break;
             case ERROR: currentState = currentState.sendError(); break;
         }
@@ -116,7 +116,7 @@ public class CallHandler
     }
 
     //when user is making a call, this is the timeout of ringing
-    public void startRingingThread()
+    public void startTimerThread()
     {
         Thread ringingThread = new Thread()
         {
@@ -163,8 +163,20 @@ public class CallHandler
         ringingThread.start();
     }
 
-    public void stopRingingThread()
+    public void stopTimerThread()
     {
         run = false;
+    }
+
+    public void startAudioStream()
+    {
+        AudioStreamUDP ad;
+        try {
+            ad = new AudioStreamUDP();
+            ad.connectTo(clientSocket.getInetAddress(), clientSocket.getLocalPort());
+            ad.startStreaming();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
