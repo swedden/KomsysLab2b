@@ -32,6 +32,7 @@ public class Main
         catch (IOException e)
         {
             System.out.println("Could not start listening for clients on port " + port + " : " + e.toString());
+            System.exit(-1);
         }
 
         listeningThread();
@@ -47,22 +48,29 @@ public class Main
             {
                 if(ch.getInputScanner().hasInput("MAIN"))
                 {
-
                      choice = ch.getInputScanner().getUserInput("MAIN");
                      choice = choice.toUpperCase();
                      break;
                 }
             }
-            if(choice.equals("CALL"))
+            if(choice.equals("CALL")) //when user typs call
             {
                 ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV);
             }
-            else if(choice.equals("BYE") && ch.busy())
+            else if(choice.equals("BYE") && ch.busy()) //when user is in a conversation and typs bye (ends the conversation)
             {
                 ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE);
+                try
+                {
+                    ch.getClientSocket().close();
+                }
+                catch(IOException e)
+                {
+                    System.out.println(e.toString());
+                }
                 showMainMenu();
             }
-            else if(choice.equals("EXIT"))
+            else if(choice.equals("EXIT")) //exit the program
             {
                 break;
             }
@@ -100,8 +108,11 @@ public class Main
         System.out.print("Input: ");
     }
 
+    private static Socket acceptSocket = null;
+
     public static void listeningThread()
     {
+
         listeningThread = new Thread()
         {
             @Override
@@ -109,11 +120,10 @@ public class Main
             {
             while(true)
             {
-                Socket acceptSocket = null;
                 try
                 {
                     acceptSocket = serverSocket.accept(); //skapar en ny för om clientSocket redan används
-                    //System.out.println("Serversocket has now made a connection");
+                    System.out.println("ServerSocket, has now made a connection");
                 }
                 catch (IOException e)
                 {
@@ -125,7 +135,9 @@ public class Main
                     //skicka busy
                     try
                     {
+                        System.out.println("Somebody else is calling, now closing that connection");
                         acceptSocket.close();
+                        acceptSocket = null;
                     }
                     catch (IOException e)
                     {
@@ -136,24 +148,34 @@ public class Main
                 {
                     //ny tråd här kanske? =====================================================================
                     //ringing
-                    BufferedReader clientIn = null;
-                    try
+                    Thread acceptThread = new Thread()
                     {
-                        clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
-                        ch.setClientSocket(clientSocket);
-                        clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                        String clientInputLine = null;
-
-                        while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
+                        @Override
+                        public void run()
                         {
-                            //System.out.println("i main while: " + clientInputLine);
-                            ch.changeState(clientInputLine);
+                            BufferedReader clientIn = null;
+                            try
+                            {
+                                System.out.println("ServerSocket, clientSocket = acceptSocket");
+                                clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
+                                ch.setClientSocket(clientSocket);
+                                clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                                String clientInputLine = null;
+
+                                while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
+                                {
+                                    //System.out.println("i main while: " + clientInputLine);
+                                    ch.changeState(clientInputLine);
+                                }
+                            }
+                            catch (IOException e)
+                            {
+                                System.out.println("ServerSocket, Could not read stream from client: " + e.toString());
+                            }
+                            System.out.println("Now closing acceptThread (lägger på)");
                         }
-                    }
-                    catch (IOException e)
-                    {
-                        System.out.println("ServerSocket, Could not read stream from client: " + e.toString());
-                    }
+                    };
+                    acceptThread.start();
                 }
             }
             }

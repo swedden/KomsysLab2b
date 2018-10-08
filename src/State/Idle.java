@@ -8,12 +8,15 @@ public class Idle extends CallState
 
     public Idle() {;}
 
+
+
     public CallState userInputReceivedSendInvite(CallHandler ch)
     {
         String ipAddress;
         String portString;
         int port;
         PrintWriter out = null;
+
         try
         {
             System.out.println("===========================");
@@ -49,6 +52,8 @@ public class Idle extends CallState
                 out.println("INVITE");
                 System.out.println("===========================");
                 System.out.println("Now waiting for the other person to answer");
+
+                ch.startRingingThread();
             }
             catch (Exception e)
             {
@@ -106,6 +111,15 @@ public class Idle extends CallState
         }
         ch.getInputScanner().setClassString("MAIN");
         System.out.println("You chose to not answer");
+
+        try
+        {
+            ch.getClientSocket().close();
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.toString());
+        }
 
         //returns to main manu, print it to show the user
         System.out.println("===========================");

@@ -43,7 +43,7 @@ public abstract class CallState
         return new Idle();
     }
 
-    public CallState receiveNothingSendBYE()
+    public CallState receiveNothingSendBYE(CallHandler ch)
     {
         //skicka error
         return new Idle();

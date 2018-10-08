@@ -16,6 +16,9 @@ public class CallHandler
     private Socket clientSocket;
     private InputScanner inputScanner;
 
+    //for ringingThread
+    private boolean run = true;
+
     public Socket getClientSocket()
     {
         return clientSocket;
@@ -62,7 +65,7 @@ public class CallHandler
         {
             case USER_INPUT_RECV_SEND_INV: currentState = currentState.userInputReceivedSendInvite(this); break;
             case USER_INPUT_RECV_SEND_BYE: currentState = currentState.userInputReceivedSendBYE(this); break;
-            case RECV_NOTHING_SEND_BYE: currentState = currentState.receiveNothingSendBYE();
+            case RECV_NOTHING_SEND_BYE: currentState = currentState.receiveNothingSendBYE(this);
             case RECV_INV_SEND_TRO: currentState = currentState.receiveINVITEsendTRO(this); break;
             case RECV_BYE_SEND_OK: currentState = currentState.receiveByeSendOK(this); break;
             case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(this); break;
@@ -110,5 +113,58 @@ public class CallHandler
             }
         };
         clientInputThread.start();
+    }
+
+    //when user is making a call, this is the timeout of ringing
+    public void startRingingThread()
+    {
+        Thread ringingThread = new Thread()
+        {
+            @Override
+            public void run()
+            {
+                run = true;
+                int ringingInt = 0;
+                int maxRinging = 10;
+                while(run)
+                {
+                    ringingInt++;
+                    System.out.println("Ringing " + ringingInt + " (" + maxRinging + ")");
+                    try
+                    {
+                        Thread.sleep(1000);
+                    }
+                    catch(InterruptedException e)
+                    {
+                        System.out.println(e.toString());
+                    }
+                    if(ringingInt == maxRinging)
+                    {
+                        System.out.println("Nobody answered");
+                        try
+                        {
+                            getClientSocket().close();
+                        }
+                        catch(IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        run = false;
+                        break;
+                    }
+                }
+                if(ringingInt == maxRinging)
+                {
+                    changeState("SEND_BYE");
+                }
+                System.out.println("stänger ringing tråd");
+            }
+        };
+        ringingThread.start();
+    }
+
+    public void stopRingingThread()
+    {
+        run = false;
     }
 }

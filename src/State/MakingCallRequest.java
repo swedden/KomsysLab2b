@@ -17,6 +17,7 @@ public class MakingCallRequest extends Busy
         //System.out.println("clientInputline: " + clientInputLine);
         //ch.changeState(clientInputLine);
         //System.out.println("Nu i receiveTROsendACK");
+        ch.stopRingingThread();
         PrintWriter out = null;
         try
         {
@@ -32,7 +33,7 @@ public class MakingCallRequest extends Busy
         return new Conversation();
     }
 
-    public CallState receiveNothingSendBYE() { //eg. times out, send bye and go back to idle
+    public CallState receiveNothingSendBYE(CallHandler ch) { //eg. times out, send bye and go back to idle
         System.out.println("BYE");
         return new Idle();
     }
