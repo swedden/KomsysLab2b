@@ -173,7 +173,9 @@ public class CallHandler
         AudioStreamUDP ad;
         try {
             ad = new AudioStreamUDP();
-            ad.connectTo(clientSocket.getInetAddress(), clientSocket.getLocalPort());
+            int port = clientSocket.getLocalPort();
+            if(port == -1){ System.out.println("port fetch error"); return; }
+            ad.connectTo(clientSocket.getInetAddress(), port+1);
             ad.startStreaming();
         } catch (IOException e) {
             e.printStackTrace();
