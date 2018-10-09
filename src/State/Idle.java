@@ -131,7 +131,7 @@ public class Idle extends CallState
         return new Idle();
     }
 
-
+    public boolean busy() {return false;}
     public void printState()
     {
         System.out.println("State: IDLE");

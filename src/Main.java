@@ -101,6 +101,8 @@ public class Main
 
     private static void showMainMenu()
     {
+        ch.printState();
+        System.out.println("busy: " + ch.busy());
         System.out.println("===========================");
         System.out.println("Menu");
         System.out.println("Call: sends invite");
@@ -172,6 +174,7 @@ public class Main
                             {
                                 System.out.println("ServerSocket, Could not read stream from client: " + e.toString());
                             }
+                            ch.changeState("OK");
                             System.out.println("Now closing acceptThread (lägger på)");
                         }
                     };

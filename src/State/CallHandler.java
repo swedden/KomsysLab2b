@@ -109,7 +109,7 @@ public class CallHandler
                     System.out.println("could not read from client: " + e.toString());
                     currentState = currentState.sendError();
                 }
-                System.out.println("Now closing startClientInputThread");
+               // System.out.println("Now closing startClientInputThread");
             }
         };
         clientInputThread.start();
