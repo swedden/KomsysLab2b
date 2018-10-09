@@ -180,24 +180,16 @@ public class CallHandler
                 System.out.println("port fetch error");
                 return;
             }
-            ad.connectTo(clientSocket.getInetAddress(), port + 1);
+            ad.connectTo(clientSocket.getInetAddress(), port);
             //ad.startStreaming();
 
+            System.out.println("Start soundstream");
             ad.startStreaming();
-            try
-            {
-                Thread.sleep(2000);
-            }
-            catch(InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            System.out.println("sound stream klart");
-            ad.stopStreaming();
         }
         catch(IOException e)
         {
             System.out.println("Error in startAudioStream" + e.toString());
         }
+
     }
 }
