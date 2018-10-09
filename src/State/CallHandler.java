@@ -3,6 +3,8 @@ package State;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class CallHandler
@@ -180,7 +182,12 @@ public class CallHandler
                 System.out.println("port fetch error");
                 return;
             }
-            ad.connectTo(clientSocket.getInetAddress(), port);
+
+            InetAddress inetAddress = InetAddress.getByName(clientSocket.getInetAddress().getHostAddress());
+            System.out.println(".. InetAddress: " + clientSocket.getInetAddress().getHostAddress());
+            ad.connectTo(inetAddress, port + 1);
+
+            //ad.connectTo(clientSocket.getInetAddress(), port);
             //ad.startStreaming();
 
             System.out.println("Start soundstream");

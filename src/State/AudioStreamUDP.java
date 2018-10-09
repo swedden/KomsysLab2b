@@ -138,8 +138,8 @@ class Receiver implements Runnable{
             return;
         }
         
-        //line = (SourceDataLine) AudioSystem.getLine(info);
-        line = getSourceDataLine(format);
+        line = (SourceDataLine) AudioSystem.getLine(info);
+        //line = getSourceDataLine(format);
         if(!line.isOpen()) {
         	line.open(format, line.getBufferSize());
         }
@@ -283,8 +283,8 @@ class Sender implements Runnable {
             return;
         }
         
-        //line = (TargetDataLine) AudioSystem.getLine(info);
-        line = getTargetDataLine(format);
+        line = (TargetDataLine) AudioSystem.getLine(info);
+        //line = getTargetDataLine(format);
         if(!line.isOpen()) {
             line.open(format, line.getBufferSize());	
         }
