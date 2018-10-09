@@ -171,14 +171,33 @@ public class CallHandler
     public void startAudioStream()
     {
         AudioStreamUDP ad;
-        try {
+        try
+        {
             ad = new AudioStreamUDP();
             int port = clientSocket.getLocalPort();
-            if(port == -1){ System.out.println("port fetch error"); return; }
-            ad.connectTo(clientSocket.getInetAddress(), port+1);
+            if(port == -1)
+            {
+                System.out.println("port fetch error");
+                return;
+            }
+            ad.connectTo(clientSocket.getInetAddress(), port + 1);
+            //ad.startStreaming();
+
             ad.startStreaming();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try
+            {
+                Thread.sleep(2000);
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            System.out.println("sound stream klart");
+            ad.stopStreaming();
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error in startAudioStream" + e.toString());
         }
     }
 }

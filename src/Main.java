@@ -158,7 +158,6 @@ public class Main
                             BufferedReader clientIn = null;
                             try
                             {
-                                System.out.println("ServerSocket, clientSocket = acceptSocket");
                                 clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
                                 ch.setClientSocket(clientSocket);
                                 clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
