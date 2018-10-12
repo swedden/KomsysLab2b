@@ -19,16 +19,16 @@ public class MakingCallRequest extends Busy
         PrintWriter out = null;
         try
         {
-            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
-            out.println("ACK");
             ch.startAudioStream();
+            out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
+            out.println("ACK " + ch.getAd().getLocalPort());
+            ch.connectAudioStream(ch.getAudioStreamPort(), ch.getAd());
         }
         catch(IOException e)
         {
-            e.printStackTrace();
+            System.out.println("Error while starting audiostream or while writing to client: " +e.toString());
         }
 
-        //System.out.println("ACK");
         return new Conversation();
     }
 

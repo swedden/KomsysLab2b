@@ -17,6 +17,8 @@ public class CallHandler
     private CallState currentState;
     private Socket clientSocket;
     private InputScanner inputScanner;
+    private AudioStreamUDP ad = null;
+    private int audioStreamPort;
 
     //for ringingThread
     private boolean run = true;
@@ -50,35 +52,37 @@ public class CallHandler
         String[] splitmsg = msg.split(" ");
 
 
-        if(splitmsg[0].equals("Exit"))
+        if(msg.equals("Exit"))
         {
 
         }
-        else if(splitmsg[0].equals("SEND_INVITE"))
+        else if(msg.equals("SEND_INVITE"))
         {
             processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV);
         }
-        else if(splitmsg[0].equals("INVITE"))
+        else if(msg.equals("INVITE"))
         {
             processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO);
         }
-        else if(splitmsg[0].equals("BYE"))
+        else if(msg.equals("BYE"))
         {
             processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK);
         }
-        else if(splitmsg[0].equals("TRO"))
+        else if(splitmsg[0].equals("TRO") && splitmsg[1] != null)
         {
+            setAudioStreamPort(Integer.parseInt(splitmsg[1]));
             processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);
         }
-        else if(splitmsg[0].equals("ACK"))
+        else if(splitmsg[0].equals("ACK") && splitmsg[1] != null)
         {
+            setAudioStreamPort(Integer.parseInt(splitmsg[1]));
             processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);
         }
-        else if(splitmsg[0].equals("OK"))
+        else if(msg.equals("OK"))
         {
             processNextEvent(CallHandler.CallEvent.RECV_OK);
         }
-        else if(splitmsg[0].equals("SEND_BYE"))
+        else if(msg.equals("SEND_BYE"))
         {
             processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE);
         }
@@ -212,24 +216,37 @@ public class CallHandler
 
     public void startAudioStream()
     {
-        AudioStreamUDP ad;
         try
         {
             ad = new AudioStreamUDP();
-            int port = ad.getLocalPort();
-
-            InetAddress inetAddress = InetAddress.getByName(clientSocket.getInetAddress().getHostAddress());
-            System.out.println(".. InetAddress: " + clientSocket.getInetAddress().getHostAddress());
-            ad.connectTo(inetAddress, port);
-
-            //ad.connectTo(clientSocket.getInetAddress(), port);
-            //ad.startStreaming();
-            ad.startStreaming();
         }
         catch(IOException e)
         {
             System.out.println("Error in startAudioStream" + e.toString());
         }
-
     }
+
+    public AudioStreamUDP getAd() {
+        return ad;
+    }
+
+    public void connectAudioStream(int port, AudioStreamUDP ad)
+    {
+        try {
+            InetAddress ip = InetAddress.getByName(clientSocket.getInetAddress().getHostAddress());
+            ad.connectTo(ip, port);
+        } catch (IOException e) {
+            System.out.println("Error while connecting to ip and port specified by peer: " +e.toString());
+        }
+        ad.startStreaming();
+    }
+
+    public int getAudioStreamPort() {
+        return audioStreamPort;
+    }
+
+    public void setAudioStreamPort(int audioStreamPort) {
+        this.audioStreamPort = audioStreamPort;
+    }
+
 }

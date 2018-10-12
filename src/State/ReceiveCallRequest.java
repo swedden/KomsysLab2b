@@ -10,7 +10,7 @@ public class ReceiveCallRequest extends Busy
         //skcika TRO för att svara
         //ingenting/bye för att gå tillbaka till IDLE (jag själv)
         //if yes, send TRO, return new conversation, else idle
-        ch.startAudioStream();
+        ch.connectAudioStream(ch.getAudioStreamPort(), ch.getAd());
         return new Conversation();
     }
 
