@@ -60,14 +60,14 @@ public class Main
             else if(choice.equals("BYE") && ch.busy()) //when user is in a conversation and typs bye (ends the conversation)
             {
                 ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE);
-                try
+                /*try
                 {
                     ch.getClientSocket().close();
                 }
                 catch(IOException e)
                 {
                     System.out.println(e.toString());
-                }
+                }*/
                 showMainMenu();
             }
             else if(choice.equals("EXIT")) //exit the program
@@ -168,7 +168,6 @@ public class Main
                                     //System.out.println("i main while: " + clientInputLine);
                                     ch.changeState(clientInputLine);
                                 }
-                                //ch.changeState("OK");
                             }
                             catch (IOException e)
                             {

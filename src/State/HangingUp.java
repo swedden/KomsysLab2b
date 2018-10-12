@@ -1,5 +1,7 @@
 package State;
 
+import java.io.IOException;
+
 public class HangingUp extends Busy
 {
     public HangingUp() {;}
@@ -7,6 +9,11 @@ public class HangingUp extends Busy
     public CallState receiveOK(CallHandler ch)
     {
         //skickar ingenting men gör ny idle.
+        try {
+            ch.getClientSocket().close();
+        } catch (IOException e) {
+            System.out.println("now closing socket in recvok: " + e.toString());
+        }
         ch.stopCall();
         return new Idle();
     }

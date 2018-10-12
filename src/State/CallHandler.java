@@ -130,7 +130,9 @@ public class CallHandler
                     while((clientInputLine = clientIn.readLine()) != null)
                     {
                         changeState(clientInputLine);
+                        System.out.println("Client input line: " + clientInputLine);
                     }
+
                 }
                 catch (SocketException e)
                 {
