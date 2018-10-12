@@ -95,7 +95,7 @@ class Receiver implements Runnable{
 	    	line.start();
             int packets = 0;
             while (receiverThread != null) {
-				socket.receive(packet);
+            	socket.receive(packet);
             	// Who's the sender?
             	if(remoteHost.equals(packet.getAddress())) {
                     numBytesRead = packet.getLength();
@@ -138,8 +138,8 @@ class Receiver implements Runnable{
             return;
         }
         
-        line = (SourceDataLine) AudioSystem.getLine(info);
-        //line = getSourceDataLine(format);
+        //line = (SourceDataLine) AudioSystem.getLine(info);
+        line = getSourceDataLine(format);
         if(!line.isOpen()) {
         	line.open(format, line.getBufferSize());
         }
@@ -215,7 +215,7 @@ class Sender implements Runnable {
 	public void connectTo(InetAddress remoteAddress, int remotePort) throws IOException {
 		this.remoteAddress = remoteAddress;
 		this.remotePort = remotePort;
-		socket.connect(new InetSocketAddress(remoteAddress, remotePort));
+		//socket.connect(new InetSocketAddress(remoteAddress, remotePort));
 	}
 	
     synchronized  void startActivity() {
@@ -252,7 +252,7 @@ class Sender implements Runnable {
 	            }
 	            packet = new DatagramPacket(data, numBytesRead, remoteAddress, remotePort);
 	            socket.send(packet);
-				if(AudioStreamUDP.DEBUG) {
+	            if(AudioStreamUDP.DEBUG) {
 	            	System.out.println("Bytes sent = " + numBytesRead + ", packets = " + packets++);
 	            }
 	        }			  		
@@ -283,8 +283,8 @@ class Sender implements Runnable {
             return;
         }
         
-        line = (TargetDataLine) AudioSystem.getLine(info);
-        //line = getTargetDataLine(format);
+        //line = (TargetDataLine) AudioSystem.getLine(info);
+        line = getTargetDataLine(format);
         if(!line.isOpen()) {
             line.open(format, line.getBufferSize());	
         }
