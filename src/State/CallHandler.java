@@ -65,6 +65,7 @@ public class CallHandler
         else if(msg.equals("BYE"))
         {
             processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK);
+            stopCall();
         }
         else if(splitmsg[0].equals("TRO") && !splitmsg[1].equals(null))
         {
@@ -79,6 +80,7 @@ public class CallHandler
         else if(msg.equals("OK"))
         {
             processNextEvent(CallHandler.CallEvent.RECV_OK);
+            stopCall();
         }
         else if(msg.equals("SEND_BYE"))
         {
