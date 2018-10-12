@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class CallHandler
 {
@@ -40,15 +41,12 @@ public class CallHandler
     public CallHandler()
     {
         currentState = new Idle();
-
-        //if((inputScanner == null))
-        //{
-            inputScanner = new InputScanner();
-        //}
+        inputScanner = new InputScanner();
     }
 
     public void changeState(String msg)
     {
+        System.out.println("MSG: " + msg);
         String[] splitmsg = msg.split(" ");
         if(msg.equals("Exit"))
         {
@@ -65,7 +63,6 @@ public class CallHandler
         else if(msg.equals("BYE"))
         {
             processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK);
-            stopCall();
         }
         else if(splitmsg[0].equals("TRO") && !splitmsg[1].equals(null))
         {
@@ -80,7 +77,6 @@ public class CallHandler
         else if(msg.equals("OK"))
         {
             processNextEvent(CallHandler.CallEvent.RECV_OK);
-            stopCall();
         }
         else if(msg.equals("SEND_BYE"))
         {
@@ -90,19 +86,6 @@ public class CallHandler
         {
             processNextEvent(CallEvent.ERROR);
         }
-
-        /*switch(msg)
-        {
-            case "EXIT": break;
-            case "SEND_INVITE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV); break;
-            case "INVITE": processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO); break;
-            case "BYE": processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK); break;
-            case "TRO": processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
-            case "ACK": processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK); break;
-            case "OK": processNextEvent(CallHandler.CallEvent.RECV_OK);break;
-            case "SEND_BYE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
-            default: processNextEvent(CallEvent.ERROR); break;
-        } */
     }
 
     public void processNextEvent (CallEvent event)
@@ -148,6 +131,16 @@ public class CallHandler
                     {
                         changeState(clientInputLine);
                     }
+                }
+                catch (SocketException e)
+                {
+                    System.out.println("Call socket closed: " + e.toString());
+                    changeState("OK");
+                }
+                catch (NullPointerException e)
+                {
+                    System.out.println("peer closed connection: " + e.toString());
+                    changeState("OK");
                 }
                 catch (IOException e)
                 {

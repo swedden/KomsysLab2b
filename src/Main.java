@@ -168,12 +168,12 @@ public class Main
                                     //System.out.println("i main while: " + clientInputLine);
                                     ch.changeState(clientInputLine);
                                 }
-                                ch.changeState("OK");
+                                //ch.changeState("OK");
                             }
                             catch (IOException e)
                             {
                                 System.out.println("ServerSocket, Could not read stream from client: " + e.toString());
-                                ch.changeState("OK");
+                                //ch.changeState("OK");
                             }
                             catch (NullPointerException e)
                             {

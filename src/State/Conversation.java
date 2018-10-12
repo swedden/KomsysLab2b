@@ -34,6 +34,7 @@ public class Conversation extends Busy
         {
             PrintWriter out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
             out.println("OK");
+            ch.stopCall();
         }
         catch(IOException e)
         {
