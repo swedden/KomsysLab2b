@@ -100,7 +100,7 @@ public class CallHandler
             case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(this); break;
             case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(this); break;
             case RECV_OK: currentState = currentState.receiveOK(this); break;
-            case ERROR: currentState = currentState.sendError(); break;
+            case ERROR: currentState = currentState.sendError(""); break;
         }
     }
 
@@ -136,19 +136,18 @@ public class CallHandler
                 }
                 catch (SocketException e)
                 {
-                    System.out.println("Call socket closed: " + e.toString());
-                    changeState("OK");
+                    System.out.println("Call socket closed unexpectedly: " + e.toString());
+                    currentState = currentState.sendError(e.toString());
                 }
                 catch (NullPointerException e)
                 {
-                    System.out.println("peer closed connection: " + e.toString());
-                    changeState("OK");
+                    System.out.println("peer closed connection unexpectedly: " + e.toString());
+                    currentState = currentState.sendError(e.toString());
                 }
                 catch (IOException e)
                 {
-                    System.out.println("\n===========================");
                     System.out.println("could not read from client: " + e.toString());
-                    currentState = currentState.sendError();
+                    currentState = currentState.sendError(e.toString());
                 }
                // System.out.println("Now closing startClientInputThread");
             }

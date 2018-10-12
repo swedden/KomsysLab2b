@@ -165,14 +165,13 @@ public class Main
 
                                 while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
                                 {
-                                    //System.out.println("i main while: " + clientInputLine);
                                     ch.changeState(clientInputLine);
                                 }
                             }
                             catch (IOException e)
                             {
-                                System.out.println("ServerSocket, Could not read stream from client: " + e.toString());
-                                //kch.changeState("OK");
+                                System.out.println("ServerSocket, Could not read stream from peer: " + e.toString());
+                                ch.changeState("Error");
                             }
                             catch (NullPointerException e)
                             {

@@ -51,10 +51,9 @@ public abstract class CallState
 
     public void printState(){}
 
-    public CallState sendError()
+    public CallState sendError(String errorMessage)
     {
-        //behöver ha socket och referenser, om den här skickas ska programmet stängas av och meddela användaren
-        System.out.println("an error occurred: ");
+        System.out.println("an error occurred: " + errorMessage);
         return new Idle();
     }
 
