@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 public class CallHandler
 {
@@ -165,7 +166,7 @@ public class CallHandler
             {
                 run = true;
                 int ringingInt = 0;
-                int maxRinging = 10;
+                int maxRinging = 20;
                 while(run)
                 {
                     ringingInt++;
@@ -183,7 +184,7 @@ public class CallHandler
                         System.out.println("Nobody answered");
                         try
                         {
-                            getClientSocket().close();
+                            if(clientSocket != null) getClientSocket().close();
                         }
                         catch(IOException e)
                         {
@@ -196,6 +197,7 @@ public class CallHandler
                 if(ringingInt == maxRinging)
                 {
                     changeState("SEND_BYE");
+
                 }
                 System.out.println("stänger ringing tråd");
             }

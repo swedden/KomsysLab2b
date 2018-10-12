@@ -12,9 +12,6 @@ public class MakingCallRequest extends Busy
 
     public CallState receiveTROsendACK(CallHandler ch)
     {
-        //System.out.println("clientInputline: " + clientInputLine);
-        //ch.changeState(clientInputLine);
-        //System.out.println("Nu i receiveTROsendACK");
         ch.stopTimerThread();
         PrintWriter out = null;
         try

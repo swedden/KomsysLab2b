@@ -43,6 +43,7 @@ public class Idle extends CallState
             }
 
             port = Integer.parseInt(portString);
+            ch.startTimerThread();
             try
             {
                 Socket socket = new Socket(ipAddress, port);
@@ -52,8 +53,8 @@ public class Idle extends CallState
                 out.println("INVITE");
                 System.out.println("===========================");
                 System.out.println("Now waiting for the other person to answer");
-
-                ch.startTimerThread();
+                ch.getInputScanner().setClassString("MAIN");
+                return new MakingCallRequest();
             }
             catch (Exception e)
             {
@@ -67,7 +68,7 @@ public class Idle extends CallState
         }
 
         ch.getInputScanner().setClassString("MAIN");
-        return new MakingCallRequest();
+        return new Idle();
     }
 
     public CallState receiveINVITEsendTRO(CallHandler ch)

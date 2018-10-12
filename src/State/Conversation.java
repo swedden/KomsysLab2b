@@ -12,7 +12,6 @@ public class Conversation extends Busy
 
     public CallState userInputReceivedSendBYE(CallHandler ch)
     {
-        //PrintWriter out = null;
         try
         {
             PrintWriter out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
@@ -29,7 +28,6 @@ public class Conversation extends Busy
     public CallState receiveByeSendOK(CallHandler ch)
     {
         System.out.println("Client hang up on you, sorry m8 :'(");
-        //PrintWriter out = null;
         try
         {
             PrintWriter out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);

@@ -120,69 +120,66 @@ public class Main
             @Override
             public void run()
             {
-            while(true)
-            {
-                try
+                while(true)
                 {
-                    acceptSocket = serverSocket.accept(); //skapar en ny för om clientSocket redan används
-                    System.out.println("ServerSocket, has now made a connection");
-                }
-                catch (IOException e)
-                {
-                    System.out.println("Could not accept new client connection: " + e.toString());
-                }
-
-                if (ch.busy())
-                {
-                    //skicka busy
                     try
                     {
-                        System.out.println("Somebody else is calling, now closing that connection");
-                        acceptSocket.close();
-                        acceptSocket = null;
+                        acceptSocket = serverSocket.accept(); //skapar en ny för om clientSocket redan används
+                        System.out.println("ServerSocket, has now made a connection");
                     }
                     catch (IOException e)
                     {
-                        System.out.println("Could not close socket with new client: " + e.toString());
+                        System.out.println("Could not accept new client connection: " + e.toString());
+                    }
+
+                    if (ch.busy())
+                    {
+                        //skicka busy
+                        try
+                        {
+                            System.out.println("Somebody else is calling, now closing that connection");
+                            acceptSocket.close();
+                            acceptSocket = null;
+                        }
+                        catch (IOException e)
+                        {
+                            System.out.println("Could not close socket with new client: " + e.toString());
+                        }
+                    }
+                    else
+                    {
+                        Thread acceptThread = new Thread()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                BufferedReader clientIn = null;
+                                try
+                                {
+                                    clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
+                                    ch.setClientSocket(clientSocket);
+                                    clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                                    String clientInputLine = null;
+
+                                    while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
+                                    {
+                                        ch.changeState(clientInputLine);
+                                    }
+                                }
+                                catch (IOException e)
+                                {
+                                    ch.changeState("Error");
+                                }
+                                catch (NullPointerException e)
+                                {
+                                    System.out.println("Nullpointer exception: " + e.toString());
+                                }
+                                System.out.println("Now closing acceptThread (lägger på)");
+                            }
+                        };
+                        acceptThread.start();
                     }
                 }
-                else
-                {
-                    //ny tråd här kanske? =====================================================================
-                    //ringing
-                    Thread acceptThread = new Thread()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            BufferedReader clientIn = null;
-                            try
-                            {
-                                clientSocket = acceptSocket; //gör acceptSocket permanent/till clientSocket
-                                ch.setClientSocket(clientSocket);
-                                clientIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                                String clientInputLine = null;
-
-                                while ((clientInputLine = clientIn.readLine().toUpperCase()) != null)
-                                {
-                                    ch.changeState(clientInputLine);
-                                }
-                            }
-                            catch (IOException e)
-                            {
-                                System.out.println("ServerSocket, Could not read stream from peer: " + e.toString());
-                                ch.changeState("Error");
-                            }
-                            catch (NullPointerException e)
-                            {
-                                System.out.println("Peer closed call: " + e.toString());
-                            }
-                            System.out.println("Now closing acceptThread (lägger på)");
-                        }
-                    };
-                    acceptThread.start();
-                }
-            }
             }
         };
         listeningThread.start();

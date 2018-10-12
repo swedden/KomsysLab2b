@@ -4,12 +4,6 @@ public class ReceiveCallRequest extends Busy
 {
     public CallState sendTROreceiveACK(CallHandler ch)
     {
-        //System.out.println("sendtroreceiveack");
-        //skicka ingenting men returnera ny conversation
-
-        //skcika TRO för att svara
-        //ingenting/bye för att gå tillbaka till IDLE (jag själv)
-        //if yes, send TRO, return new conversation, else idle
         ch.connectAudioStream(ch.getAudioStreamPort(), ch.getAd());
         return new Conversation();
     }
@@ -23,7 +17,5 @@ public class ReceiveCallRequest extends Busy
     public void printState() {
         System.out.println("State: State.ReceiveCallRequest");
     }
-
-    //if busy or timeout, go back to idle
 
 }
