@@ -3,6 +3,7 @@ package State;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -46,18 +47,58 @@ public class CallHandler
 
     public void changeState(String msg)
     {
-        switch(msg)
+        String[] splitmsg = msg.split(" ");
+
+
+        if(splitmsg[0].equals("Exit"))
+        {
+
+        }
+        else if(splitmsg[0].equals("SEND_INVITE"))
+        {
+            processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV);
+        }
+        else if(splitmsg[0].equals("INVITE"))
+        {
+            processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO);
+        }
+        else if(splitmsg[0].equals("BYE"))
+        {
+            processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK);
+        }
+        else if(splitmsg[0].equals("TRO"))
+        {
+            processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);
+        }
+        else if(splitmsg[0].equals("ACK"))
+        {
+            processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);
+        }
+        else if(splitmsg[0].equals("OK"))
+        {
+            processNextEvent(CallHandler.CallEvent.RECV_OK);
+        }
+        else if(splitmsg[0].equals("SEND_BYE"))
+        {
+            processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE);
+        }
+        else
+        {
+            processNextEvent(CallEvent.ERROR);
+        }
+
+        /*switch(msg)
         {
             case "EXIT": break;
             case "SEND_INVITE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV); break;
             case "INVITE": processNextEvent(CallHandler.CallEvent.RECV_INV_SEND_TRO); break;
             case "BYE": processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK); break;
             case "TRO": processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);break;
-            case "ACK": processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);break;
+            case "ACK": processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK); break;
             case "OK": processNextEvent(CallHandler.CallEvent.RECV_OK);break;
             case "SEND_BYE": processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE); break;
             default: processNextEvent(CallEvent.ERROR); break;
-        }
+        } */
     }
 
     public void processNextEvent (CallEvent event)
@@ -175,12 +216,7 @@ public class CallHandler
         try
         {
             ad = new AudioStreamUDP();
-            int port = clientSocket.getLocalPort();
-            if(port == -1)
-            {
-                System.out.println("port fetch error");
-                return;
-            }
+            int port = ad.getLocalPort();
 
             InetAddress inetAddress = InetAddress.getByName(clientSocket.getInetAddress().getHostAddress());
             System.out.println(".. InetAddress: " + clientSocket.getInetAddress().getHostAddress());
