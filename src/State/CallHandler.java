@@ -235,7 +235,7 @@ public class CallHandler
         try {
             InetAddress ip = InetAddress.getByName(clientSocket.getInetAddress().getHostAddress());
             ad.connectTo(ip, port);
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error while connecting to ip and port specified by peer: " +e.toString());
         }
         ad.startStreaming();
