@@ -97,12 +97,10 @@ public class Idle extends CallState
                 ch.startAudioStream();
                 out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
                 out.println("TRO "+ ch.getAd().getLocalPort());
-                //System.out.println("Have now sent TRO");
             }
             catch (IOException e)
             {
                 System.out.println("Couldn't get an outputstream for the client: " + e.toString());
-                //sendError(e.toString());
             }
             catch (Exception e)
             {
@@ -112,7 +110,6 @@ public class Idle extends CallState
             return new ReceiveCallRequest();
         }
         ch.getInputScanner().setClassString("MAIN");
-        System.out.println("You chose to not answer");
 
         try
         {

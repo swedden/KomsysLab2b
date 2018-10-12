@@ -47,13 +47,8 @@ public class CallHandler
 
     public void changeState(String msg)
     {
-        System.out.println("MSG: " + msg);
         String[] splitmsg = msg.split(" ");
-        if(msg.equals("Exit"))
-        {
-
-        }
-        else if(msg.equals("SEND_INVITE"))
+        if(msg.equals("SEND_INVITE"))
         {
             processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_INV);
         }
@@ -131,26 +126,21 @@ public class CallHandler
                     while((clientInputLine = clientIn.readLine()) != null)
                     {
                         changeState(clientInputLine);
-                        System.out.println("Client input line: " + clientInputLine);
                     }
 
                 }
                 catch (SocketException e)
                 {
-                    System.out.println("Call socket closed unexpectedly: " + e.toString());
                     currentState = currentState.sendError(e.toString());
                 }
                 catch (NullPointerException e)
                 {
-                    System.out.println("peer closed connection unexpectedly: " + e.toString());
                     currentState = currentState.sendError(e.toString());
                 }
                 catch (IOException e)
                 {
-                    System.out.println("could not read from client: " + e.toString());
                     currentState = currentState.sendError(e.toString());
                 }
-               // System.out.println("Now closing startClientInputThread");
             }
         };
         clientInputThread.start();
@@ -199,7 +189,6 @@ public class CallHandler
                     changeState("SEND_BYE");
 
                 }
-                System.out.println("stänger ringing tråd");
             }
         };
         ringingThread.start();

@@ -60,14 +60,6 @@ public class Main
             else if(choice.equals("BYE") && ch.busy()) //when user is in a conversation and typs bye (ends the conversation)
             {
                 ch.processNextEvent(CallHandler.CallEvent.USER_INPUT_RECV_SEND_BYE);
-                /*try
-                {
-                    ch.getClientSocket().close();
-                }
-                catch(IOException e)
-                {
-                    System.out.println(e.toString());
-                }*/
                 showMainMenu();
             }
             else if(choice.equals("EXIT")) //exit the program
@@ -125,7 +117,7 @@ public class Main
                     try
                     {
                         acceptSocket = serverSocket.accept(); //skapar en ny för om clientSocket redan används
-                        System.out.println("ServerSocket, has now made a connection");
+                        System.out.println("Made a new connection.");
                     }
                     catch (IOException e)
                     {
@@ -137,7 +129,7 @@ public class Main
                         //skicka busy
                         try
                         {
-                            System.out.println("Somebody else is calling, now closing that connection");
+                            System.out.println("Now closing new client socket.");
                             acceptSocket.close();
                             acceptSocket = null;
                         }
@@ -174,7 +166,7 @@ public class Main
                                 {
                                     System.out.println("Nullpointer exception: " + e.toString());
                                 }
-                                System.out.println("Now closing acceptThread (lägger på)");
+                                System.out.println("Call has now ended.");
                             }
                         };
                         acceptThread.start();

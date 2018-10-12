@@ -2,13 +2,6 @@ package State;
 
 import java.util.Scanner;
 
-/**
- * Pga att man i olika delar av programmet vill skriva in från System.in och programmet använder trådar kan man inte ha
- * scanners på alla ställen då dessa krockar med varnnadra (med System.in). Denna klassen sköter det så endas och endast
- * en i taget kan läsa in från System.in (scanner). Klassen fungerar så att den läser in allt från användaren, och för
- * att skilja åt vem som ska ha meddelandet används classString.
- */
-
 public class InputScanner
 {
     private Scanner scanner;
@@ -25,9 +18,7 @@ public class InputScanner
             {
                 while(true)
                 {
-                    //System.out.println("Start reading input");
                     inputMessage = scanner.nextLine();
-                    //System.out.println("inputMessage: " + inputMessage + ", length: " + inputMessage.length());
                 }
             }
         };
@@ -64,10 +55,8 @@ public class InputScanner
         } catch (InterruptedException e) {
 
         }
-        //System.out.println("inputMessage.length() == " + inputMessage.length() + ", inputmessage: " + inputMessage + ", classString: " + classString);
         if(!(inputMessage.length() == 0))
         {
-            //System.out.println("inputMessage.length() == " + inputMessage.length() + ", inputmessage: " + inputMessage + ", classString: " + classString);
             if(this.classString.equals(classString))
             {
                 return true;

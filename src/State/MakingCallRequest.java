@@ -29,7 +29,7 @@ public class MakingCallRequest extends Busy
         return new Conversation();
     }
 
-    public CallState receiveNothingSendBYE(CallHandler ch) { //eg. times out, send bye and go back to idle
+    public CallState receiveNothingSendBYE(CallHandler ch) {
         System.out.println("BYE");
         return new Idle();
     }
