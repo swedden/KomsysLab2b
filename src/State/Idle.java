@@ -95,7 +95,7 @@ public class Idle extends CallState
             {
                 ch.startAudioStream();
                 out = new PrintWriter(ch.getClientSocket().getOutputStream(), true);
-                out.println("TRO"+ ch.getAd().getLocalPort());
+                out.println("TRO "+ ch.getAd().getLocalPort());
                 //System.out.println("Have now sent TRO");
             }
             catch (IOException e)

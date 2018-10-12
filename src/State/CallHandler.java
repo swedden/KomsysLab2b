@@ -50,8 +50,6 @@ public class CallHandler
     public void changeState(String msg)
     {
         String[] splitmsg = msg.split(" ");
-
-
         if(msg.equals("Exit"))
         {
 
@@ -68,12 +66,12 @@ public class CallHandler
         {
             processNextEvent(CallHandler.CallEvent.RECV_BYE_SEND_OK);
         }
-        else if(splitmsg[0].equals("TRO") && splitmsg[1] != null)
+        else if(splitmsg[0].equals("TRO") && !splitmsg[1].equals(null))
         {
             setAudioStreamPort(Integer.parseInt(splitmsg[1]));
             processNextEvent(CallHandler.CallEvent.RECV_TRO_SEND_ACK);
         }
-        else if(splitmsg[0].equals("ACK") && splitmsg[1] != null)
+        else if(splitmsg[0].equals("ACK") && !splitmsg[1].equals(null))
         {
             setAudioStreamPort(Integer.parseInt(splitmsg[1]));
             processNextEvent(CallHandler.CallEvent.SEND_TRO_RECV_ACK);
@@ -116,7 +114,7 @@ public class CallHandler
             case RECV_BYE_SEND_OK: currentState = currentState.receiveByeSendOK(this); break;
             case RECV_TRO_SEND_ACK: currentState = currentState.receiveTROsendACK(this); break;
             case SEND_TRO_RECV_ACK: currentState = currentState.sendTROreceiveACK(this); break;
-            case RECV_OK: currentState = currentState.receiveOK(); break;
+            case RECV_OK: currentState = currentState.receiveOK(this); break;
             case ERROR: currentState = currentState.sendError(); break;
         }
     }
@@ -247,6 +245,13 @@ public class CallHandler
 
     public void setAudioStreamPort(int audioStreamPort) {
         this.audioStreamPort = audioStreamPort;
+    }
+
+    public void stopCall()
+    {
+        ad.stopStreaming();
+        ad.close();
+        ad = null;
     }
 
 }

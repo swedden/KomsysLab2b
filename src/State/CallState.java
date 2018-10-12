@@ -25,7 +25,7 @@ public abstract class CallState
         //skicka error
         return new Idle();
     }
-    public CallState receiveOK()
+    public CallState receiveOK(CallHandler ch)
     {
         //skicka error.
         return new Idle();

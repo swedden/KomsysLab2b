@@ -4,9 +4,10 @@ public class HangingUp extends Busy
 {
     public HangingUp() {;}
 
-    public CallState receiveOK()
+    public CallState receiveOK(CallHandler ch)
     {
         //skickar ingenting men gör ny idle.
+        ch.stopCall();
         return new Idle();
     }
 
