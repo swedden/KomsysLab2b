@@ -172,7 +172,7 @@ public class Main
                             catch (IOException e)
                             {
                                 System.out.println("ServerSocket, Could not read stream from client: " + e.toString());
-                                //ch.changeState("OK");
+                                //kch.changeState("OK");
                             }
                             catch (NullPointerException e)
                             {
